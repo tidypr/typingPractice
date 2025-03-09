@@ -10,10 +10,15 @@
     <title>typing</title>
   </head>
   <body class="flex flex-col h-screen bg-gray-100">
+    <!-- HEADER -->
     <header
-      class="flex justify-between items-center p-4 bg-blue-500 text-white"
+      class="flex justify-between items-center p-4 bg-blue-500 text-white h-[10%]"
     >
       <div class="text-xl font-bold">
+        <button id="menuButton" class="text-white text-2xl focus:outline-none">
+          <!-- &#9776; -->
+          🍔
+        </button>
         <a href="/">Typing Game</a>
       </div>
       <nav>
@@ -28,10 +33,109 @@
               >Card</a
             >
           </li>
+          <li>
+            <a href="#Rank" class="hover:font-bold hover:underline">Rank</a>
+          </li>
         </ul>
       </nav>
     </header>
+
+    <dialog
+      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg"
+    >
+      <div class="mt-4 text-center flex flex-col gap-2 text-2">
+        <h2 class="text-lg font-semibold text-gray-900">기록</h2>
+        <p class="text-gray-600">
+          현재 속도: <span class="font-bold text-md text-blue-500">75 WPM</span>
+        </p>
+        <p class="text-gray-600">
+          평균 속도: <span class="font-bold text-md text-green-500">68 WPM</span>
+        </p>
+        <p class="text-gray-600">
+          최고 속도: <span class="font-bold text-md text-red-500">82 WPM</span>
+        </p>
+        <p class="text-gray-600">
+          정확도: <span class="font-bold text-md text-purple-500">95%</span>
+        </p>
+      </div>
+    </dialog>
+
+    <!-- SIDEBAR -->
+    <aside
+      id="sidebar"
+      class="fixed top-[10%] left-0 h-full w-48 bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
+    >
+      <!-- <aside
+      id="sidebar"
+      class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out"
+    > -->
+      <nav class="p-4">
+        <button
+          id="closeButton"
+          class="text-gray-700 text-2xl absolute top-2 right-4"
+        >
+          &times;
+        </button>
+        <!-- 프로필-->
+        <article
+          class="flex flex-col items-center bg-white py-6 rounded-lg w-full max-w-lg mx-auto"
+        >
+          <img
+            class="w-20 h-20 rounded-full object-cover"
+            src="./assets/images/king_sweatpotato.webp"
+            alt="profile"
+          />
+
+          <!-- 통계계 -->
+          <div class="mt-4 text-center flex flex-col gap-2">
+            <h2 class="text-lg font-semibold text-gray-900">기록</h2>
+            <p class="text-gray-600">
+              현재 속도: <span class="font-bold text-blue-500">75 WPM</span>
+            </p>
+            <p class="text-gray-600">
+              평균 속도: <span class="font-bold text-green-500">68 WPM</span>
+            </p>
+            <p class="text-gray-600">
+              최고 속도: <span class="font-bold text-red-500">82 WPM</span>
+            </p>
+            <p class="text-gray-600">
+              정확도: <span class="font-bold text-purple-500">95%</span>
+            </p>
+          </div>
+        </article>
+
+        <div class="mt-4 text-center flex flex-col gap-2">
+          <h2 class="text-lg font-bold">연습 선택</h2>
+          <ul class="mt-2 space-y-1">
+            <li>
+              <a
+                href="./raindrop.html"
+                class="block p-2 text-gray-700 hover:bg-gray-200"
+                >단문연습(한글)</a
+              >
+            </li>
+            <li>
+              <a
+                href="./card.html"
+                class="block p-2 text-gray-700 hover:bg-gray-200"
+                >단문연습(영어)</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
     <main class="flex-1 flex flex-col items-center justify-center p-4 gap-4">
+      <!--  -->
+      <!-- <sections class="w-full max-w-2xl">
+        <img
+          class="w-full h-36 bg-gray-200 rounded-lg shadow-md over-flow-hidden object-cover"
+          src="./assets//images/coffeeshop.webp"
+          alt="ad"
+        />
+      </sections> -->
       <!-- 글자 출력 부분 -->
       <section class="w-full max-w-2xl">
         <!--  -->
@@ -39,13 +143,9 @@
           class="bg-white bg-gray-200 p-4 rounded-lg shadow-md text-center mb-2"
         >
           <!-- 제시어 -->
-          <p class="p-4 rounded text-gray-900 font-mono">
-            The quick brown fox jumps over the lazy dog.
-          </p>
+          <p class="p-4 rounded text-gray-900 font-mono">얼마나 좋아.</p>
           <!-- userInput -->
-          <p class="p-4 rounded text-gray-900/40 font-mono">
-            The quick brown fox jumps over the lazy dog.
-          </p>
+          <p class="p-4 rounded text-gray-900/40 font-mono">얼마나 좋아.</p>
         </div>
       </section>
       <!-- keyboard layout -->

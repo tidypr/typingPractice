@@ -15,3 +15,7 @@
 - API를 이용하여 문장을 랜덤으로 받아옴
   - `https://korean-advice-open-api.vercel.app/api/advice`
 - Server와 연동하여 사용자의 점수를 저장
+
+## 추가 기능
+- 난이도
+- 게임모드
