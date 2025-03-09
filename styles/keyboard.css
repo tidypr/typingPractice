@@ -6,5 +6,114 @@
 
 .keyboard-row {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 4px;
+}
+
+.key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem; 
+  font-size: .8rem;
+  font-weight: bold;
+  color: #2d3748;
+  background: #f1f1f1;
+  border: 1px solid #cbd5e0;
+  border-radius: .2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid #cbd5e0; /* border-b-2 */
+  transition: all 0.075s ease-in-out; /* transition-all duration-75 ease-in-out */
+
+  /* 키 명암 ver1-laptop */
+  
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+
+  /* 키 명암 ver2-deskop */
+  /* box-shadow: 0 4px 0 0 #9ca3af, 0 5px 5px 3px rgba(0, 0, 0, 0.2); */
+
+  user-select: none; /* select-none */
+}
+
+.key:hover {
+  background: #333;
+  color: #f1f1f1;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* More shadow on hover */
+}
+
+.key:active {
+  background: #333;
+  color: #f1f1f1;
+  transform: translateY(4px); /* Moves the key down to mimic pressing */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduced shadow when pressed */
+}
+
+.key.pressed {
+  transform: translateY(0.25rem); /* translate-y-1 */
+  box-shadow: 0 2px 0 0 #9ca3af, 0 3px 3px 0 rgba(0, 0, 0, 0.1); /* shadow-[0_2px_0_0_#9ca3af,0_3px_3px_0_rgba(0,0,0,0.1)] */
+}
+
+/* 3D effects */
+.key-effect-top,
+.key-effect-left,
+.key-effect-bottom,
+.key-effect-right {
+  position: absolute;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.key-effect-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.4); /* bg-white/40 */
+  border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.key-effect-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.3); /* bg-white/30 */
+  border-radius: 0.375rem 0 0 0.375rem;
+}
+
+.key-effect-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.2); /* bg-black/20 */
+}
+
+.key-effect-right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(0, 0, 0, 0.1); /* bg-black/10 */
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Hover effect overlay */
+.hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0); /* bg-gray-800/0 */
+  border-radius: 0.375rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Active state for key */
+.key:active {
+  background-color: #e2e8f0; /* Slightly darker background on active */
 }
