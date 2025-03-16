@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- script -->
-    <script src="./src/test.js" defer></script>
+    <script src="./src/keyboard.js" defer></script>
+    <script src="./src/others.js" defer></script>
     <!-- CSS -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="./styles/global.css" />
@@ -45,7 +46,6 @@
 
     <!-- DIALOG -->
     <dialog
-      open="true"
       class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg w-2/3 md:w-1/3 md:h-1/4 items-center justify-center"
     >
       <div>
@@ -79,14 +79,14 @@
     </dialog>
 
     <!-- SIDEBAR -->
-    <aside
+    <!-- <aside
       id="sidebar"
       class="fixed top-[10%] left-0 h-full w-52 bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
-    >
-      <!-- <aside
+    > -->
+      <aside
       id="sidebar"
       class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out"
-    > -->
+    >
       <div class="p-4 flex flex-col justify-between h-[85%]">
         <div>
           <button
@@ -178,9 +178,10 @@
           class="bg-white bg-gray-200 p-4 rounded-lg shadow-md text-center mb-2"
         >
           <!-- 제시어 -->
-          <p class="p-4 rounded text-gray-900 font-mono">얼마나 좋아.</p>
+          <p id="question" class="p-4 rounded text-gray-900 font-mono"></p>
           <!-- userInput -->
-          <p class="p-4 rounded text-gray-900/40 font-mono">얼마나 좋아.</p>
+          <p id="answer" class="p-4 rounded text-gray-900/40 font-mono">얼마나 좋아.</p>
+          <!-- input -->
         </div>
       </section>
       <!-- keyboard layout -->
@@ -188,62 +189,61 @@
         <div class="keyboard">
           <!-- keyboard row -->
           <div class="keyboard-row">
-            <div class="key key:action">`</div>
-            <div class="key">1</div>
-            <div class="key">2</div>
-            <div class="key">3</div>
-            <div class="key">4</div>
-            <div class="key">5</div>
-            <div class="key">6</div>
-            <div class="key">7</div>
-            <div class="key">8</div>
-            <div class="key">9</div>
-            <div class="key">0</div>
-            <div class="key">-</div>
-            <div class="key">+</div>
-            <div class="key">del</div>
+            <div data-key="`" class="key">`</div>
+            <div data-key="1" class="key">1</div>
+            <div data-key="2" class="key">2</div>
+            <div data-key="3" class="key">3</div>
+            <div data-key="4" class="key">4</div>
+            <div data-key="5" class="key">5</div>
+            <div data-key="6" class="key">6</div>
+            <div data-key="7" class="key">7</div>
+            <div data-key="8" class="key">8</div>
+            <div data-key="9" class="key">9</div>
+            <div data-key="0" class="key">0</div>
+            <div data-key="-" class="key">-</div>
+            <div data-key="Delete" class="key">del</div>
           </div>
           <div class="keyboard-row">
-            <div class="key">Q</div>
-            <div class="key">W</div>
-            <div class="key">E</div>
-            <div class="key">R</div>
-            <div class="key">T</div>
-            <div class="key">Y</div>
-            <div class="key">U</div>
-            <div class="key">I</div>
-            <div class="key">O</div>
-            <div class="key">P</div>
-            <div class="key">[</div>
-            <div class="key">]</div>
+            <div data-key="q" class="key">Q</div>
+            <div data-key="W" class="key">W</div>
+            <div data-key="e" class="key">E</div>
+            <div data-key="r" class="key">R</div>
+            <div data-key="t" class="key">T</div>
+            <div data-key="y" class="key">Y</div>
+            <div data-key="u" class="key">U</div>
+            <div data-key="i" class="key">I</div>
+            <div data-key="o" class="key">O</div>
+            <div data-key="p" class="key">P</div>
+            <div data-key="[" class="key">[</div>
+            <div data-key="]" class="key">]</div>
           </div>
           <div class="keyboard-row">
             <!-- <div class="key key2">Caps</div> -->
-            <div class="key">A</div>
-            <div class="key">S</div>
-            <div class="key">D</div>
-            <div class="key">F</div>
-            <div class="key">G</div>
-            <div class="key">H</div>
-            <div class="key">J</div>
-            <div class="key">K</div>
-            <div class="key">L</div>
-            <div class="key">;</div>
-            <div class="key">'</div>
+            <div data-key="a" class="key">A</div>
+            <div data-key="s" class="key">S</div>
+            <div data-key="d" class="key">D</div>
+            <div data-key="f" class="key">F</div>
+            <div data-key="g" class="key">G</div>
+            <div data-key="h" class="key">H</div>
+            <div data-key="j" class="key">J</div>
+            <div data-key="k" class="key">K</div>
+            <div data-key="l" class="key">L</div>
+            <div data-key=";" class="key">;</div>
+            <div data-key="'" class="key">'</div>
             <!-- <div class="key key2">Enter</div> -->
           </div>
           <div class="keyboard-row">
             <!-- <div class="key key2">Shift</div> -->
-            <div class="key">Z</div>
-            <div class="key">X</div>
-            <div class="key">C</div>
-            <div class="key">V</div>
-            <div class="key">B</div>
-            <div class="key">N</div>
-            <div class="key">M</div>
-            <div class="key">,</div>
-            <div class="key">.</div>
-            <div class="key">/</div>
+            <div data-key="z" class="key">Z</div>
+            <div data-key="x" class="key">X</div>
+            <div data-key="c" class="key">C</div>
+            <div data-key="v" class="key">V</div>
+            <div data-key="b" class="key">B</div>
+            <div data-key="n" class="key">N</div>
+            <div data-key="m" class="key">M</div>
+            <div data-key="," class="key">,</div>
+            <div data-key="." class="key">.</div>
+            <div data-key="/" class="key">/</div>
             <!-- <div class="key key2">Shift</div> -->
           </div>
         </div>
