@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS -->
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="./assets/styles/global.css" />
+    <link rel="stylesheet" href="./assets/styles/keyboard.css" />
     <!-- script -->
     <script src="./src/keyboard.js" defer></script>
     <script src="./src/others.js" defer></script>
-    <!-- CSS -->
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="./styles/global.css" />
-    <link rel="stylesheet" href="./styles/keyboard.css" />
     <title>typing</title>
   </head>
   <body class="flex flex-col h-screen bg-gray-100">
@@ -19,7 +19,7 @@
     >
       <div class="text-xl font-bold">
         <button id="menuButton" class="text-white text-2xl focus:outline-none">
-          &#9776;          
+          &#9776;
         </button>
         <a href="/">Typing Game</a>
       </div>
@@ -79,13 +79,9 @@
     </dialog>
 
     <!-- SIDEBAR -->
-    <!-- <aside
+    <aside
       id="sidebar"
       class="fixed top-[10%] left-0 h-full w-52 bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
-    > -->
-      <aside
-      id="sidebar"
-      class="fixed top-0 right-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out"
     >
       <div class="p-4 flex flex-col justify-between h-[85%]">
         <div>
@@ -153,10 +149,11 @@
             <button>Submit</button>
           </form> -->
           <button
-          class="mt-4 bg-[#333333] text-white p-2 rounded-md hover:bg-blue-600"
-        >
-          파일업로드
-        </button>
+          id="clickTest"
+            class="mt-4 bg-[#333333] text-white p-2 rounded-md hover:bg-blue-600"
+          >
+            파일업로드
+          </button>
         </div>
       </div>
     </aside>
@@ -180,7 +177,9 @@
           <!-- 제시어 -->
           <p id="question" class="p-4 rounded text-gray-900 font-mono"></p>
           <!-- userInput -->
-          <p id="answer" class="p-4 rounded text-gray-900/40 font-mono">얼마나 좋아.</p>
+          <p id="answer" class="p-4 rounded text-gray-900/40 font-mono">
+            얼마나 좋아.
+          </p>
           <!-- input -->
         </div>
       </section>

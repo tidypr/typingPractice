@@ -3,6 +3,7 @@ const sideBar = document.querySelector("#sidebar");
 const closeButton = document.getElementById("closeButton");
 
 menuButton.addEventListener("click", () => {
+  console.log('click')
   sideBar.classList.toggle("-translate-x-full");
 });
 
