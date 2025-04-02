@@ -30,7 +30,7 @@ const fetchText2 = async () => {
   return data
 }
 const fetchWord = async () => {
-  const resData = await fetch('https://random-word-api.vercel.app/api?words=10')
+  const resData = await fetch('https://random-word-api.vercel.app/api?words=300')
   const data = await resData.json()
   console.log(data)
   return data
@@ -57,7 +57,7 @@ app.get('/api/englishWord', async (req: Request, res: Response, next: NextFuncti
   res.json({ data: data });
 });
 
-app.post('/api/test', async (req: Request, res: Response, next: NextFunction) => {
+app.post('/api/rank', async (req: Request, res: Response, next: NextFunction) => {
   const {userName: name, score } = await req.body;
 
   // 유효성 검사 추가 => Joi or Zod
@@ -68,15 +68,16 @@ app.post('/api/test', async (req: Request, res: Response, next: NextFunction) =>
       score,
      }
   })
-  console.log(result);
-  // UESR.push(user);
-  // console.log(user);
-  res.json({ message: 'Hello World!!!!!' });
+
+  // 현재 점수에 대한 랭킹 추가
+  const curRank = 1;
+
+  res.json({ message: curRank });
 });
 
 app.get('/api/rank', async (req: Request, res: Response, next: NextFunction) => {
   const result = await prisma.user.findMany({
-    take: 5,
+    take: 10,
     orderBy: {
       score: 'desc'
     }

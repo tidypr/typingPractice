@@ -14,6 +14,8 @@ const userNameEl = document.querySelector("#userName");
 const gameOver = document.querySelector("#gameOver");
 const restartGame = document.querySelector("#restartGame");
 
+const endText = document.querySelector("#endText");
+
 const gameOverLevel = document.querySelector("#gameOverLevel");
 const gameOverScore = document.querySelector("#gameOverScore");
 const gameOverUserName = document.querySelector("#gameOverUserName");
@@ -22,12 +24,12 @@ const gameOverUserName = document.querySelector("#gameOverUserName");
 const INITDATA = {
   level: 1,
   score: 0,
-  lives: 3,
+  lives: 10,
 };
 
 // Game variables
-let score = 0;
 let level = 1;
+let score = 0;
 let lives = 3;
 
 // 단어장-모집단
@@ -50,7 +52,13 @@ const speedIncrease = 0.95;
 let userName = null;
 
 // 클리어 레벨
-const CLEARLEVEL = 5;
+const CLEARLEVEL = 20;
+
+// 기본 텍스트 
+let defaultClassName =
+  "bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-xl text-center shadow-xl w-fit absolute text-2xl font-semibold transition-transform transform hover:scale-105";
+
+
 
 // 초기 설정
 const initGame = (INITDATA) => {
@@ -81,7 +89,7 @@ function gameStartHandler() {
 
   gameOver.style.display = "hidden";
 
-  gameInterval = setInterval(createRaindrop, 2000 / level);
+  gameInterval = setInterval(createRaindrop, 2000);
   moveInterval = setInterval(updateRaindrops, dropSpeed);
 }
 
@@ -89,58 +97,52 @@ function gameStartHandler() {
 const checkInput = (event) => {
   const value = input.value.trim().toLowerCase();
   // if (event.code === "Enter" || event.code === "Space") {
-    if (event.code === "Enter") {
-    console.log(event.target.value);
+  if (event.code === "Enter") {
     // let found = false;
     activeRaindrops.forEach((drop, index) => {
       if (drop.word.toLowerCase() === value) {
         gameAreaEl.removeChild(drop.element);
         activeRaindrops.splice(index, 1);
-        score += Math.ceil(1.1 ** (level - 1));
+        score += calScore(level, event.target.value.length);
         wordsTyped++;
         scoreEl.innerText = `${score}`;
         // found = true;
       }
     });
     input.value = "";
-    if (wordsTyped >= 1) {
+    if (wordsTyped >= 15) {
       increaseLevel();
     }
   }
 };
 
+// 점수 계산
+const calScore = (level, length) => {
+  const baseScore = 100;
+  const lengthScore = length * 10;
+  const levelScore = level / 10;
 
-const calScore = (level) => {
-  
-};
+  const tempScore = (baseScore + lengthScore) * levelScore;
 
-const getEnglishWords = async () => {
-  try {
-    const response = await fetch("http://192.168.0.42:5000/api/englishWord");
-    const data = await response.json();
-    console.log(data.data);
-    words = [...words, ...data.data];
-
-    console.log("words", words);
-  } catch (error) {
-    console.error("Failed to fetch words:", error);
-  }
+  return tempScore;
 };
 
 // ITEM
 // - 단어 전부 삭제
 // - 드롭 일시 정지
 // - 드롭 속도 감소
-let defaultClassName =
-  "bg-blue-500 text-white p-2 rounded text-center shadow-lg w-fit absolute text-2xl rounded-lg";
+
 const createRaindrop = () => {
   // 레벨 변화
+  // TODO: 확률 출현
   if (level > 2) {
     defaultClassName = defaultClassName.concat(" animate-spin");
-    console.log(defaultClassName);
   }
 
   if (activeRaindrops.length >= 20) return;
+  // TODO
+  // 단어가져오기: 랜덤 => POP()
+  // POP시 배열길이 0이면 RETURN  
   const word = words[Math.floor(Math.random() * words.length)];
   const drop = document.createElement("div");
 
@@ -165,20 +167,8 @@ const updateRaindrops = () => {
   });
 };
 
-const saveData = async (gameData) => {
-  const response = await fetch("http://192.168.0.42:5000/api/test", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(gameData),
-  });
-  const data = await response.json();
-  return data;
-};
-
 // gameOver
-const gameOverHandler = async () => {
+const gameOverHandler = async (clear) => {
   clearInterval(gameInterval);
   clearInterval(moveInterval);
 
@@ -186,14 +176,16 @@ const gameOverHandler = async () => {
   gameOverLevel.innerHTML = level;
   gameOverScore.innerHTML = score;
   gameOverUserName.innerHTML = userName;
+  // console.log(clear)
+  // endText.innerHTML = clear ? "Game Clear" : "Game Over";
 
   const gameData = {
     userName: userName,
     level: level,
     score: score,
   };
+  console.log(gameData);
   const result = await saveData(gameData);
-  console.log(result);
 };
 
 const loseLife = () => {
@@ -206,7 +198,7 @@ const loseLife = () => {
 };
 
 const clearGame = () => {
-  alert("게임 클리어");
+  gameOverHandler(true);
 };
 
 // 레벨 증가: 레벨벨속도 증가, 단어 추가
@@ -215,7 +207,7 @@ const increaseLevel = () => {
   level++;
   levelEl.innerText = `${level}`;
   dropSpeed *= speedIncrease;
-  getEnglishWords();
+  // getEnglishWords();
   clearInterval(moveInterval);
   moveInterval = setInterval(updateRaindrops, dropSpeed);
 
@@ -227,7 +219,7 @@ const increaseLevel = () => {
 
 function gameRestartHandler() {
   userName = userNameEl.value.trim();
-  getEnglishWords();
+  // getEnglishWords();
   startDia.style.display = "block";
   input.value = "";
   userNameEl.focus();
@@ -236,6 +228,9 @@ function gameRestartHandler() {
 
   gameOver.style.display = "none";
   initGame(INITDATA);
+
+  let defaultClassName =
+  "bg-blue-500 text-white p-2 rounded text-center shadow-lg w-fit absolute text-2xl rounded-lg";
 
   // gameInterval = setInterval(createRaindrop, 2000 / level);
   // moveInterval = setInterval(updateRaindrops, dropSpeed);

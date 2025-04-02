@@ -7,10 +7,19 @@
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="./assets/styles/global.css" />
     <link rel="stylesheet" href="./assets/styles/keyboard.css" />
+    <!-- GOOGLE FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap"
+      rel="stylesheet"
+    />
     <!-- script -->
     <script src="./src/keyboard.js" defer></script>
     <script src="./src/others.js" defer></script>
     <script src="./src/raindrop.js" defer></script>
+    <script src="./src/api/api.js" defer></script>
+
     <title>Typing Game</title>
   </head>
   <body class="flex flex-col h-screen bg-gray-100">
@@ -42,11 +51,13 @@
     <main class="flex-1 flex flex-col items-center justify-center p-4 w-full">
       <!-- 레벨 / 점수 / 생명 섹션 -->
       <section class="mb-4 text-center w-full">
-        <h1 class="text-3xl font-bold">RainDrop</h1>
+        <h1 class="py-4 text-3xl font-bold font-[Bubblegum_Sans]">RainDrop</h1>
         <div class="flex gap-4 text-lg w-full justify-between">
-          <p>Level: <span id="level">1</span></p>
-          <p>LIFE: <span id="life">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></p>
-          <p>SCORE: <span id="score">0</span></p>
+          <p class="text-xl font-bold">Level: <span id="level">1</span></p>
+          <p class="text-xl font-bold">
+            LIFE: <span id="life">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span>
+          </p>
+          <p class="text-xl font-bold">SCORE: <span id="score">0</span></p>
         </div>
       </section>
 
@@ -67,16 +78,31 @@
       </section>
 
       <!-- start game -->
-      <div id="dia" class="fixed top-1/2 left-1/2 items-center justify-center">
-        <div
-          class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg w-2/3 md:w-1/3 md:h-1/4 items-center justify-center"
-        >
-          <div
-            class="flex items-center justify-center w-full h-full flex-col gap-2"
-          >
-            <label for="userName">이름</label>
-            <input type="text" placeholder="이름을 입력하세요" id="userName" />
-            <button id="gameStart" class="bg-blue-500 text-white p-2 rounded">
+      <!-- Start Game Modal -->
+      <div
+        id="dia"
+        class="fixed inset-0 flex items-center justify-center bg-blue-50/20 bg-opacity-50"
+      >
+        <div class="bg-white p-6 rounded-2xl shadow-xl w-11/12 max-w-md">
+          <div class="flex flex-col items-center gap-4">
+            <h2 class="text-2xl font-bold text-gray-800">게임 시작</h2>
+            <div class="w-full">
+              <label
+                for="userName"
+                class="block text-gray-600 text-sm font-medium"
+                >이름</label
+              >
+              <input
+                id="userName"
+                type="text"
+                placeholder="이름을 입력하세요"
+                class="w-full mt-1 p-3 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
+              />
+            </div>
+            <button
+              id="gameStart"
+              class="w-full font-[Bubblegum_Sans] text-xl tracking-widest bg-gradient-to-r from-blue-400 to-blue-600 text-white text-lg font-semibold py-3 rounded-xl hover:from-blue-500 hover:to-blue-700 transition transform hover:scale-105"
+            >
               Start Game
             </button>
           </div>
@@ -86,36 +112,49 @@
       <!-- game over -->
       <div
         id="gameOver"
-        class="fixed flex items-center justify-center bg-black bg-opacity-50 w-full h-full top-0 left-0 hidden"
+        class="fixed items-center justify-center bg-gray-100/90 w-full h-full top-0 left-0 hidden"
       >
-        <div
-          class="flex w-1/2 h-1/2 bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-sm flex flex-col items-center"
-        >
-          <h1 class="text-4xl font-bold text-red-600 mb-4">Game Over</h1>
+        <div class="flex items-center justify-center w-full h-full">
+          <div
+            class="flex w-1/2 h-fit bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-sm flex flex-col items-center py-20"
+          >
+            <h1 id="endText" class="text-4xl font-bold text-red-600 mb-4">
+              Game Over
+            </h1>
 
-          <div class="w-full text-center space-y-2 text-lg font-medium">
-            <div class="flex justify-between w-full px-4">
-              <span>LEVEL:</span>
-              <span id="gameOverLevel" class="font-bold">1</span>
+            <div class="w-full text-center space-y-2 text-lg font-medium">
+              <div class="flex justify-between w-full px-4">
+                <span>LEVEL:</span>
+                <span id="gameOverLevel" class="font-bold">1</span>
+              </div>
+              <div class="flex justify-between w-full px-4">
+                <span>SCORE:</span>
+                <span id="gameOverScore" class="font-bold">0</span>
+              </div>
+              <div class="flex justify-between w-full px-4">
+                <span>이름:</span>
+                <span id="gameOverUserName" class="font-bold">Kim</span>
+              </div>
             </div>
-            <div class="flex justify-between w-full px-4">
-              <span>SCORE:</span>
-              <span id="gameOverScore" class="font-bold">0</span>
-            </div>
-            <div class="flex justify-between w-full px-4">
-              <span>이름:</span>
-              <span id="gameOverUserName" class="font-bold">Kim</span>
+
+            <div class="flex flex-col gap-4 w-full mt-8">
+              <a
+                href="./rank.html"
+                class="flex w-full bg-yellow-300 text-white text-lg font-semibold px-6 py-2 rounded-lg hover:bg-yellow-600 transition items-center justify-center"
+              >
+                View Rankings
+              </a>
+              <button
+                id="restartGame"
+                class="w-full bg-green-300 text-white text-lg font-semibold px-6 py-2 rounded-lg hover:bg-green-600 transition items-center justify-center"
+              >
+                Restart Game
+              </button>
             </div>
           </div>
-
-          <button
-            id="restartGame"
-            class="bg-green-500 text-white text-lg font-semibold px-6 py-2 rounded-lg mt-4 hover:bg-green-600 transition"
-          >
-            Restart Game
-          </button>
         </div>
       </div>
+      <div></div>
     </main>
 
     <footer class="text-center p-4 text-white">
