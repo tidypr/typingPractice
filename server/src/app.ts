@@ -4,7 +4,7 @@ const prisma = new PrismaClient()
 import express, { Request, Response, NextFunction } from 'express';
 import { User } from './models/user';
 
-const UESR: User[] = [];  
+const UESR: User[] = [];
 
 const app = express();
 app.use(express.json());
@@ -58,15 +58,16 @@ app.get('/api/englishWord', async (req: Request, res: Response, next: NextFuncti
 });
 
 app.post('/api/rank', async (req: Request, res: Response, next: NextFunction) => {
-  const {userName: name, score } = await req.body;
+  const { userName: name, score } = await req.body;
 
   // 유효성 검사 추가 => Joi or Zod
 
   const result = await prisma.user.create({
-    data: { 
+    data: {
       name,
       score,
-     }
+      // ip: req.ip,
+    }
   })
 
   // 현재 점수에 대한 랭킹 추가
@@ -82,7 +83,6 @@ app.get('/api/rank', async (req: Request, res: Response, next: NextFunction) => 
       score: 'desc'
     }
   })
-  console.log(result);
   res.json({ data: result });
 })
 

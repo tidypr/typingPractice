@@ -2,6 +2,7 @@
 const levelEl = document.querySelector("#level");
 const lifeEl = document.querySelector("#life");
 const scoreEl = document.querySelector("#score");
+const comboEl = document.querySelector("#combo");
 
 const gameAreaEl = document.querySelector("#displayWordArea");
 
@@ -21,6 +22,10 @@ const gameOverScore = document.querySelector("#gameOverScore");
 const gameOverUserName = document.querySelector("#gameOverUserName");
 
 // Game init
+const speedIncrease = 0.95; // 레벨 증가 - 속도 증가 비율
+const CLEARLEVEL = 20; // 클리어 레벨
+const WORDCREATIONINTERVAL = 2000; // 단어 생성 주기
+
 const INITDATA = {
   level: 1,
   score: 0,
@@ -42,23 +47,17 @@ let activeRaindrops = [];
 let wordsTyped = 0;
 
 let gameInterval, moveInterval;
+let userName = null;
 
 // 기본속도
 let dropSpeed = 100;
 
-// 증가속도
-const speedIncrease = 0.95;
+// 콤보
+let combo = 0;
 
-let userName = null;
-
-// 클리어 레벨
-const CLEARLEVEL = 20;
-
-// 기본 텍스트 
+// 기본 텍스트
 let defaultClassName =
   "bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-xl text-center shadow-xl w-fit absolute text-2xl font-semibold transition-transform transform hover:scale-105";
-
-
 
 // 초기 설정
 const initGame = (INITDATA) => {
@@ -66,6 +65,7 @@ const initGame = (INITDATA) => {
 
   levelEl.innerText = `${level}`;
   scoreEl.innerText = `${score}`;
+  comboEl.innerText = `${combe}`;
   lifeEl.innerText = "❤️".repeat(lives);
   userNameEl.focus();
 };
@@ -89,24 +89,33 @@ function gameStartHandler() {
 
   gameOver.style.display = "hidden";
 
-  gameInterval = setInterval(createRaindrop, 2000);
+  gameInterval = setInterval(createRaindrop, WORDCREATIONINTERVAL);
+  gameItemInterval = setInterval(createItemDrop, 10000 + Math.random() * 5000); // 10초 + 랜덤 0~5초
   moveInterval = setInterval(updateRaindrops, dropSpeed);
 }
 
 // 단어 입력
 const checkInput = (event) => {
+  // TODO: combo계산
+  
   const value = input.value.trim().toLowerCase();
   // if (event.code === "Enter" || event.code === "Space") {
   if (event.code === "Enter") {
     // let found = false;
     activeRaindrops.forEach((drop, index) => {
       if (drop.word.toLowerCase() === value) {
+        console.log(event.target.value);
         gameAreaEl.removeChild(drop.element);
         activeRaindrops.splice(index, 1);
         score += calScore(level, event.target.value.length);
         wordsTyped++;
+        combo++;
         scoreEl.innerText = `${score}`;
+        comboEl.innerText = `${combo}`;
         // found = true;
+      } else {
+        combo = 0;
+        comboEl.innerText = `${combo}`;
       }
     });
     input.value = "";
@@ -118,19 +127,39 @@ const checkInput = (event) => {
 
 // 점수 계산
 const calScore = (level, length) => {
-  const baseScore = 100;
+  const baseScore = 50;
   const lengthScore = length * 10;
-  const levelScore = level / 10;
+  const levelScore = level * 0.5 + 1;
 
-  const tempScore = (baseScore + lengthScore) * levelScore;
+  const tempScore = (baseScore + lengthScore) * levelScore + combo * 20;
 
   return tempScore;
 };
 
-// ITEM
-// - 단어 전부 삭제
-// - 드롭 일시 정지
-// - 드롭 속도 감소
+const createItemDrop = () => {
+  // ITEM
+  // - ⏸️ 단어 정지
+  // - 💣 단어 전부 삭제
+  // - ⏱️ 드롭 속도 감소
+  // - 💎 점수 2배
+  // - 💰 점수 1.5배
+  // - 💖 목숨 1개 증가
+
+  // 아이템 배열 별도로 ???
+  const items = ["⏸️", "💣", "⏱️", "💎", "💰", "💖"];
+
+  const randomItem = items[Math.floor(Math.random() * items.length)];
+
+  const word = words.pop();
+  const drop = document.createElement("div");
+
+  drop.textContent = randomItem.concat(" ", word);
+  drop.className = defaultClassName;
+
+  drop.style.left = `${Math.random() * 90}%`;
+  gameAreaEl.appendChild(drop);
+  activeRaindrops.push({ element: drop, word, y: 0 });
+};
 
 const createRaindrop = () => {
   // 레벨 변화
@@ -140,10 +169,8 @@ const createRaindrop = () => {
   }
 
   if (activeRaindrops.length >= 20) return;
-  // TODO
-  // 단어가져오기: 랜덤 => POP()
-  // POP시 배열길이 0이면 RETURN  
-  const word = words[Math.floor(Math.random() * words.length)];
+
+  const word = words.pop();
   const drop = document.createElement("div");
 
   drop.textContent = word;
@@ -216,7 +243,6 @@ const increaseLevel = () => {
   }
 };
 
-
 function gameRestartHandler() {
   userName = userNameEl.value.trim();
   // getEnglishWords();
@@ -230,7 +256,7 @@ function gameRestartHandler() {
   initGame(INITDATA);
 
   let defaultClassName =
-  "bg-blue-500 text-white p-2 rounded text-center shadow-lg w-fit absolute text-2xl rounded-lg";
+    "bg-blue-500 text-white p-2 rounded text-center shadow-lg w-fit absolute text-2xl rounded-lg";
 
   // gameInterval = setInterval(createRaindrop, 2000 / level);
   // moveInterval = setInterval(updateRaindrops, dropSpeed);
