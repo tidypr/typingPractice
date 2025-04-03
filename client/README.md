@@ -1,4 +1,4 @@
-# typing Page Project
+# typing Game
 
 ## 1차 진행
 - HTML, CSS를 이용하여 기본적인 화면 구성
@@ -13,9 +13,15 @@
 
 ## 3차 진행
 - API를 이용하여 문장을 랜덤으로 받아옴
-  - `https://korean-advice-open-api.vercel.app/api/advice`
+  - ``
 - Server와 연동하여 사용자의 점수를 저장
 
 ## 추가 기능
 - 난이도
 - 게임모드
+
+
+## API
+<!-- https://korean-advice-open-api.vercel.app/api/advice -->
+<!-- https://random-word-api.herokuapp.com/home -->
+<!-- https://random-word-api.vercel.app/ -->

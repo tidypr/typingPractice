@@ -16,37 +16,34 @@
   align-items: center;
   justify-content: center;
   width: 2.5rem;
-  height: 2.5rem; 
-  font-size: .8rem;
+  height: 2.5rem;
+  font-size: 0.8rem;
   font-weight: bold;
   color: #2d3748;
   background: #f1f1f1;
   border: 1px solid #cbd5e0;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   cursor: pointer;
   transition: all 0.3s ease;
   border-bottom: 2px solid #cbd5e0;
   transition: all 0.075s ease-in-out;
 
   /* 키 명암 ver1-laptop */
-  
+
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
 
   /* 키 명암 ver2-deskop */
   /* box-shadow: 0 4px 0 0 #9ca3af, 0 5px 5px 3px rgba(0, 0, 0, 0.2); */
 }
 
-.key.active {
+.pressed {
+  transform: translateY(0.25rem);
+  box-shadow: 0 2px 0 0 #9ca3af, 0 3px 3px 0 rgba(0, 0, 0, 0.1);
   background: #333;
   color: #f1f1f1;
   transform: translateY(4px);
   /* box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.key.pressed {
-  transform: translateY(0.25rem);
-  box-shadow: 0 2px 0 0 #9ca3af, 0 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .key2 {
