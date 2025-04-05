@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS -->
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="./assets/styles/global.css" />
-    <link rel="stylesheet" href="./assets/styles/keyboard.css" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href="/styles/keyboard.css" />
     <!-- GOOGLE FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,13 +15,7 @@
       rel="stylesheet"
     />
     <!-- script -->
-    <!-- <script src="./dist/raindrop/getElement.js" defer></script> -->
-    <script src="./dist/raindrop/item.js" defer></script>
-    <script src="./dist/raindrop/cal.js" defer></script>
-    <script src="./dist/raindrop.js" defer></script>
-    <script src="./dist/api/api.js" defer></script>
-    <!-- <script src="./dist/others.js" defer></script> -->
-
+    <script type="module" src="/src/raindrop/raindrop.ts" defer></script>
     <title>Typing Game</title>
   </head>
   <body
@@ -166,7 +160,9 @@
         id="startGameModal"
         class="fixed flex items-center justify-center w-full"
       >
-        <div class="bg-white/90 pt-4 pb2 rounded-2xl shadow-xl w-11/12 max-w-md">
+        <div
+          class="bg-white/90 pt-4 pb2 rounded-2xl shadow-xl w-11/12 max-w-md"
+        >
           <div class="flex flex-col items-center gap-2">
             <h2 class="text-2xl font-bold text-gray-800">
               게임 시작
@@ -185,9 +181,13 @@
                   <li
                     class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg shadow-sm"
                   >
-                    <p>잘못된 단어 입력 시 <span class="py-1 px-2 rounded-md bg-red-100 font-semibold"
-                      >COMBO</span
-                    >가 초기화됩니다.</p>
+                    <p>
+                      잘못된 단어 입력 시
+                      <span
+                        class="py-1 px-2 rounded-md bg-red-100 font-semibold"
+                        >COMBO</span
+                      >가 초기화됩니다.
+                    </p>
                   </li>
                   <li
                     class="flex items-start gap-3 bg-gray-50 p-3 rounded-lg shadow-sm"
@@ -201,7 +201,7 @@
                   </li>
                 </ul>
               </div>
-              
+
               <!-- 아이템 설명 -->
               <div class="mb-4">
                 <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
@@ -215,7 +215,8 @@
                     <div>
                       <p class="font-semibold">단어 전부 삭제</p>
                       <p class="text-sm text-gray-600">
-                        <span class="py-1 px-2 rounded-md bg-red-100 font-semibold"
+                        <span
+                          class="py-1 px-2 rounded-md bg-red-100 font-semibold"
                           >ESC</span
                         >
                         키를 눌러 사용
