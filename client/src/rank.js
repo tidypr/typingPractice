@@ -1,14 +1,11 @@
 const dateFormat = (date) => {
-  return date
-    .toLocaleString("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-    .replace(/\./g, "") // 마침표 제거
-    .replace(/(\d{4}) (\d{2}) (\d{2}), (\d{2}):(\d{2})/, "$1-$2-$3 $4시 $5분");
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${year}/${month}/${day} ${hours}:${minutes}`;
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -31,8 +28,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         "bg-gray-200 w-full flex justify-between p-4 px-8 rounded-xl";
       listItem.innerHTML = `
         <span>${index + 1}</span>
-        <span>${item.name}</span>
-        <span>${item.score}</span>
+        <span class='w-28'>${item.name}</span>
+        <span class="font-bold w-16 text-right">${item.score.toLocaleString('ko-KR')}</span>
         <span>${newDate}</span>
       `;
       rankList.appendChild(listItem);

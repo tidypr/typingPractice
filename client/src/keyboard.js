@@ -3,7 +3,7 @@
 
 const questionEl = document.querySelector("#question");
 const answerEl = document.querySelector("#answer");
-const testBtn = document.querySelector("#clickTest");
+
 const keysEl = document.querySelectorAll(".key");
 
 let currentQuestion = ""; // Question
@@ -71,7 +71,5 @@ const updateAnswerDisplay = () => {
 
 document.addEventListener("keydown", (e) => handleKeyInput(e, true));
 document.addEventListener("keyup", (e) => handleKeyInput(e, false));
-
-testBtn.addEventListener("click", fetchQuestion);
 
 fetchQuestion();
