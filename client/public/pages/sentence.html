@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="stylesheet" href="/styles/keyboard.css" />
+    <!-- script -->
+    <script type="module" src="/src/keyboard.js" defer></script>
+    <title>typing</title>
+  </head>
+  <body class="flex flex-col h-screen bg-gray-100">
+    <!-- HEADER -->
+    <header
+      class="fixed flex justify-between items-center p-4 text-white h-[10%] w-full"
+    >
+      <div class="text-xl font-bold">
+        <button id="menuButton" class="text-white text-2xl focus:outline-none">
+          &#9776;
+        </button>
+        <a href="/">Typing Game</a>
+      </div>
+      <nav>
+        <ul class="flex gap-4 flex items-center justify-center">
+          <li>
+            <a
+              href="/pages/raindrop.html"
+              class="hover:font-bold hover:underline"
+              >RainDrop</a
+            >
+          </li>
+          <li>
+            <a href="/pages/mine.html" class="hover:font-bold hover:underline"
+              >Mine</a
+            >
+          </li>
+          <li>
+            <a href="/pages/rank.html" class="hover:font-bold hover:underline"
+              >Rank</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- DIALOG -->
+    <dialog
+      open
+      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg w-2/5 h-fit items-center justify-center"
+    >
+      <div>
+        <div class="mt-4 text-center flex flex-col gap-2 text-2">
+          <h2 class="text-lg font-semibold text-gray-900">기록</h2>
+          <p class="text-gray-600">
+            현재 속도:
+            <span class="font-bold text-md text-blue-500">75 WPM</span>
+          </p>
+          <p class="text-gray-600">
+            평균 속도:
+            <span class="font-bold text-md text-green-500">68 WPM</span>
+          </p>
+          <p class="text-gray-600">
+            최고 속도:
+            <span class="font-bold text-md text-[#e73f32]">82 WPM</span>
+          </p>
+          <p class="text-gray-600">
+            정확도: <span class="font-bold text-md text-purple-500">95%</span>
+          </p>
+        </div>
+        <div class="flex flex-reverse justify-center">
+          <button
+            class="mt-4 bg-[#333333] text-white p-2 rounded-md hover:bg-blue-600"
+            onclick="this.closest('dialog').close()"
+          >
+            확인
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- SIDEBAR -->
+    <aside
+      id="sidebar"
+      class="fixed top-[10%] left-0 h-full w-52 bg-white shadow-lg transform transition-transform duration-300 ease-in-out"
+    >
+      <div class="p-4 flex flex-col justify-between h-[85%]">
+        <div>
+          <button
+            id="closeButton"
+            class="text-gray-700 text-2xl absolute top-2 right-4"
+          >
+            &times;
+          </button>
+          <!-- 프로필 / 통계-->
+          <!-- <article
+            class="flex flex-col items-center bg-white py-6 rounded-lg w-full max-w-lg mx-auto"
+          >
+            <img
+              class="w-20 h-20 rounded-full object-cover"
+              src="./assets/images/king_sweatpotato.webp"
+              alt="profile"
+            />
+
+            <div class="mt-4 text-center flex flex-col gap-2">
+              <h2 class="text-lg font-semibold text-gray-900">기록</h2>
+              <p class="text-gray-600">
+                현재 속도: <span class="font-bold text-blue-500">75 WPM</span>
+              </p>
+              <p class="text-gray-600">
+                평균 속도: <span class="font-bold text-green-500">68 WPM</span>
+              </p>
+              <p class="text-gray-600">
+                최고 속도: <span class="font-bold text-[#e73f32]">82 WPM</span>
+              </p>
+              <p class="text-gray-600">
+                정확도: <span class="font-bold text-purple-500">95%</span>
+              </p>
+            </div>
+          </article> -->
+
+          <nav class="mt-4 text-center flex flex-col gap-2">
+            <h2 class="text-lg font-bold">연습 선택</h2>
+            <ul class="mt-2 space-y-1">
+              <li>
+                <a
+                  href="./raindrop.html"
+                  class="block p-2 text-gray-700 hover:bg-gray-200"
+                  >단문연습(한글)</a
+                >
+              </li>
+              <li>
+                <a
+                  href="./mine.html"
+                  class="block p-2 text-gray-700 hover:bg-gray-200"
+                  >단문연습(영어)</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="flex flex-col gap-4">
+          <!-- <form class="w-full" action="">
+            <input class="w-full border rounded-md" type="text" />
+            <button>Submit</button>
+          </form>
+          <form action="">
+            <input type="file" />
+            <button>Submit</button>
+          </form> -->
+          <button
+            id="clickTest"
+            class="mt-4 bg-[#333333] text-white p-2 rounded-md hover:bg-blue-600"
+          >
+            파일업로드
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 flex flex-col items-center justify-center p-4 gap-4">
+      <!--  -->
+      <!-- <sections class="w-full max-w-2xl">
+        <img
+          class="w-full h-36 bg-gray-200 rounded-lg shadow-md over-flow-hidden object-cover"
+          src="./assets//images/coffeeshop.webp"
+          alt="ad"
+        />
+      </sections> -->
+      <!-- 글자 출력 부분 -->
+      <section class="w-full max-w-2xl">
+        <!--  -->
+        <div
+          class="bg-white bg-gray-200 p-4 rounded-lg shadow-md text-center mb-2"
+        >
+          <!-- 제시어 -->
+          <p id="question" class="p-4 rounded text-gray-900 font-mono"></p>
+          <!-- userInput -->
+          <p id="answer" class="p-4 rounded text-gray-900/40 font-mono">
+            얼마나 좋아.
+          </p>
+          <!-- input -->
+        </div>
+      </section>
+      <!-- keyboard layout -->
+      <section class="w-full max-w-3xl">
+        <div class="keyboard">
+          <!-- keyboard row -->
+          <div class="keyboard-row">
+            <div data-key="`" class="key">`</div>
+            <div data-key="1" class="key">1</div>
+            <div data-key="2" class="key">2</div>
+            <div data-key="3" class="key">3</div>
+            <div data-key="4" class="key">4</div>
+            <div data-key="5" class="key">5</div>
+            <div data-key="6" class="key">6</div>
+            <div data-key="7" class="key">7</div>
+            <div data-key="8" class="key">8</div>
+            <div data-key="9" class="key">9</div>
+            <div data-key="0" class="key">0</div>
+            <div data-key="-" class="key">-</div>
+            <div data-key="Delete" class="key">del</div>
+          </div>
+          <div class="keyboard-row">
+            <div data-key="q" class="key">Q</div>
+            <div data-key="W" class="key">W</div>
+            <div data-key="e" class="key">E</div>
+            <div data-key="r" class="key">R</div>
+            <div data-key="t" class="key">T</div>
+            <div data-key="y" class="key">Y</div>
+            <div data-key="u" class="key">U</div>
+            <div data-key="i" class="key">I</div>
+            <div data-key="o" class="key">O</div>
+            <div data-key="p" class="key">P</div>
+            <div data-key="[" class="key">[</div>
+            <div data-key="]" class="key">]</div>
+          </div>
+          <div class="keyboard-row">
+            <!-- <div class="key key2">Caps</div> -->
+            <div data-key="a" class="key">A</div>
+            <div data-key="s" class="key">S</div>
+            <div data-key="d" class="key">D</div>
+            <div data-key="f" class="key">F</div>
+            <div data-key="g" class="key">G</div>
+            <div data-key="h" class="key">H</div>
+            <div data-key="j" class="key">J</div>
+            <div data-key="k" class="key">K</div>
+            <div data-key="l" class="key">L</div>
+            <div data-key=";" class="key">;</div>
+            <div data-key="'" class="key">'</div>
+            <!-- <div class="key key2">Enter</div> -->
+          </div>
+          <div class="keyboard-row">
+            <!-- <div class="key key2">Shift</div> -->
+            <div data-key="z" class="key">Z</div>
+            <div data-key="x" class="key">X</div>
+            <div data-key="c" class="key">C</div>
+            <div data-key="v" class="key">V</div>
+            <div data-key="b" class="key">B</div>
+            <div data-key="n" class="key">N</div>
+            <div data-key="m" class="key">M</div>
+            <div data-key="," class="key">,</div>
+            <div data-key="." class="key">.</div>
+            <div data-key="/" class="key">/</div>
+            <!-- <div class="key key2">Shift</div> -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center p-4 text-white">
+      <p>&copy; 2025 Tidy Typing. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

@@ -1,3 +1,4 @@
+export const appEl = document.querySelector("#app")! as HTMLElement;
 // Element references
 export const levelEl = document.querySelector("#level")! as HTMLElement;
 export const lifeEl = document.querySelector("#life")! as HTMLElement;
@@ -18,3 +19,12 @@ export const gameOverUserNameEl = document.querySelector("#gameOverUserName")! a
 
 export const userNameEl = document.querySelector("#userName")! as HTMLInputElement;
 export const inputEl = document.querySelector("#input")! as HTMLInputElement;
+
+export const raindropEl = document.querySelector("#raindrop")! as HTMLInputElement;
+
+
+// menu
+
+export const menuButtonEl = document.querySelector("#menuButton") as HTMLDialogElement;
+export const sideBarEl = document.querySelector("#sidebar") as HTMLButtonElement;
+export const closeButtonEl = document.getElementById("closeButton") as HTMLButtonElement;

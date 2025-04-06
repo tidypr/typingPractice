@@ -14,7 +14,7 @@
 - **Frontend**: TypeScript, JavaScript, Tailwind CSS
 - **Backend**: TypeScript, Express, MongoDB, Prisma
 - **API**: OpenAPI를 활용한 문장 및 단어 데이터 제공
-- **배포**: Vercel (Frontend) / AWS EC2 (Backend) / MongoDB Atlas (Cloud DB) 
+<!-- - **배포**: Vercel (Frontend) / AWS EC2 (Backend) / MongoDB Atlas (Cloud DB)  -->
 
 ## API 문서
 
