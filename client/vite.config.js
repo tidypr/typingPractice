@@ -5,10 +5,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-        sentence: '/public/pages/sentence.html',
-        raindrop: '/public/pages/raindrop.html',
-        rank: '/public/pages/rank.html',
-        mine: '/public/pages/mine.html',
+        sentence: '/pages/sentence.html',
+        raindrop: '/pages/raindrop.html',
+        rank: '/pages/rank.html',
+        mine: '/pages/mine.html',
       }
     }
   }
