@@ -7,6 +7,7 @@ const router = Router();
 
 // TODO: /api/records
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+  console.log(req.body);
   const { userName: name, score } = await req.body;
 
   // 유효성 검사 추가 => Joi or Zod

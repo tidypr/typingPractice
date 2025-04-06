@@ -1,10 +1,40 @@
 const words = [
-  "apple", "banana", "cherry", "date", "elderberry", "fig",
-  "grape", "honeydew", "kiwi", "lemon", "mango", "nectarine",
-  "orange", "papaya", "quince", "raspberry", "strawberry", "tangerine",
-  "ugli", "vanilla", "watermelon", "xigua", "yellowfruit", "zucchini",
-  "apricot", "blackberry", "blueberry", "cantaloupe", "dragonfruit", "guava",
-  "jackfruit", "kumquat", "lime", "mulberry", "olive", "peach"
+  "apple",
+  "banana",
+  "cherry",
+  "date",
+  "elderberry",
+  "fig",
+  "grape",
+  "honeydew",
+  "kiwi",
+  "lemon",
+  "mango",
+  "nectarine",
+  "orange",
+  "papaya",
+  "quince",
+  "raspberry",
+  "strawberry",
+  "tangerine",
+  "ugli",
+  "vanilla",
+  "watermelon",
+  "xigua",
+  "yellowfruit",
+  "zucchini",
+  "apricot",
+  "blackberry",
+  "blueberry",
+  "cantaloupe",
+  "dragonfruit",
+  "guava",
+  "jackfruit",
+  "kumquat",
+  "lime",
+  "mulberry",
+  "olive",
+  "peach",
 ];
 
 const gameBoardEl = document.getElementById("gameBoard");
@@ -36,8 +66,8 @@ toShuffle.forEach((word, index) => {
 
 // Replace a random word every second
 const replaceWordInterval = setInterval(() => {
-  const remainingWords = wordElements.filter(el => el.textContent !== ""); // 남아있는 단어만 필터링
-  
+  const remainingWords = wordElements.filter((el) => el.textContent !== ""); // 남아있는 단어만 필터링
+
   if (remainingWords.length > 0) {
     const randomIndex = Math.floor(Math.random() * remainingWords.length);
     const targetWordEl = remainingWords[randomIndex];
@@ -55,7 +85,7 @@ const replaceWordInterval = setInterval(() => {
 // Check user input
 wordInput.addEventListener("input", () => {
   const inputValue = wordInput.value.trim().toLowerCase();
-  const matchedWord = wordElements.find(el => el.textContent === inputValue);
+  const matchedWord = wordElements.find((el) => el.textContent === inputValue);
 
   if (matchedWord) {
     messageElement.textContent = "Correct!";

@@ -1,4 +1,4 @@
-const dateFormat = (date) => {
+const dateFormat = (date: Date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -10,7 +10,7 @@ const dateFormat = (date) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const API_URL = "http://localhost:5000/api/rank";
-  const rankList = document.querySelector("#rank ul");
+  const rankList: HTMLUListElement = document.querySelector("#rank ul") as HTMLUListElement;
 
   try {
     const response = await fetch(API_URL);
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await response.json();
     rankList.innerHTML = "";
 
-    data.data.forEach((item, index) => {
+    data.data.forEach((item: { updatedAt: number, score: number, name: string }, index: number) => {
       const listItem = document.createElement("li");
       const newDate = dateFormat(new Date(item.updatedAt));
 

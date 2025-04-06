@@ -7,7 +7,7 @@ type gameData = {
 
 export const getEnglishWords = async () => {
   try {
-    const response = await fetch("http://localhost:5000/api/englishWord");
+    const response = await fetch("http://localhost:5000/api/words");
     const data = await response.json();
     return data.data
 

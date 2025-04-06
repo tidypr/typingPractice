@@ -11,10 +11,10 @@ let typedInput = ""; // User input
 
 const fetchQuestion = async () => {
   try {
-    const response = await fetch("http://192.168.0.42:5000/api/english");
+    const response = await fetch("http://localhost:5000/api/sentences");
     const data = await response.json();
     currentQuestion = data.message;
-    
+
     questionEl.innerText = currentQuestion;
     typedInput = "";
     answerEl.innerHTML = "";
@@ -38,7 +38,30 @@ const handleKeyInput = (e, isKeyDown) => {
     return;
   }
 
-  if (!/^[a-zA-Z\s]$/.test(e.key) && e.key !== "Backspace") return;
+  const blockedKeys = [
+    "Shift",
+    "Control",
+    "Alt",
+    "Meta",
+    "Tab",
+    "Enter",
+    "Escape",
+    "ArrowLeft",
+    "ArrowRight",
+    "ArrowUp",
+    "ArrowDown",
+    "CapsLock",
+    "Insert",
+    "Delete",
+    "Home",
+    "End",
+    "PageUp",
+    "PageDown",
+    "HanjaMode",
+    "ModeHangul",
+  ];
+
+  if (blockedKeys.includes(e.key)) return;
 
   toggleKeyPress(e.key, true);
 
@@ -60,7 +83,7 @@ const updateAnswerDisplay = () => {
     span.innerText = char;
 
     if (currentQuestion[index] === char) {
-      span.style.color = "#80b3ff"
+      span.style.color = "#80b3ff";
     } else {
       span.style.color = "#ff8080";
     }

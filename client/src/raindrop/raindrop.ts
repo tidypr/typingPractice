@@ -1,7 +1,10 @@
 import * as El from "./getElement";
-import { SETTINGS } from "./gameData";
+import SETTINGS from "./SettingClass";
 import { getEnglishWords, saveData } from "../api/api";
-import type { gameData, Raindrop, PlayTime } from "../type.d.ts";
+import { calScore, calPlayTime } from "../utils/utills.ts";
+import type { gameData, Raindrop } from "../type.d.ts";
+
+// import { CreateWord } from "./createWordClass";
 
 const INITDATA: gameData = {
   level: 1,
@@ -139,7 +142,7 @@ const checkInput = (event: KeyboardEvent) => {
         }, 100);
 
         if (event.target && 'value' in event.target) {
-          gameData.score += calScore(gameData.level, (event.target as HTMLInputElement).value.length);
+          gameData.score += calScore(gameData.level, (event.target as HTMLInputElement).value.length, gameData.combo);
         }
         gameData.wordCount++;
         matched = true;
@@ -195,7 +198,7 @@ const createPlainWord = () => {
       extraClass = " animate-pulse";
     }
   }
-  
+
   if (gameData.level >= 6) {
     const rand = Math.random();
     if (rand < 0.6) {
@@ -215,6 +218,8 @@ const updateRaindrops = () => {
   const gameAreaHeight = El.gameAreaEl.clientHeight;
 
   for (let i = activeRaindrops.length - 1; i >= 0; i--) {
+    console.log(`${activeRaindrops[i].word} - ${activeRaindrops[i].y}`);
+
     const drop = activeRaindrops[i];
     drop.y += 2 * gameData.level;
     drop.element.style.top = `${drop.y}px`;
@@ -355,29 +360,4 @@ const itemTextHandler = (type: string) => {
   } else if (type === "💖") {
     addLife();
   }
-};
-
-
-// 점수 계산
-const calScore = (level: number, length: number) => {
-  const baseScore = 50;
-  const lengthScore = length * 10;
-  const levelScore = level * 0.5 + 1;
-
-
-  const tempScore =
-    (baseScore + lengthScore) * levelScore + gameData.combo * 20;
-
-
-  return tempScore;
-};
-
-
-// playTime 계산
-const calPlayTime = (gameData: PlayTime) => {
-  const timeDiff = gameData.endTime - gameData.startTime;
-  const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-
-  return `${minutes}분 ${seconds}초`;
 };

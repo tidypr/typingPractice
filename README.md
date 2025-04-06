@@ -6,15 +6,24 @@
 
 - OpenAPI를 통해 랜덤으로 문장과 단어를 생성하여 타이핑 연습을 할 수 있습니다.
 - 사용자별 타이핑 기록을 저장하고, 통계를 제공하여 실력 향상을 도와줍니다.
-- 다양한 난이도의 게임 모드를 통해 재미있게 타이핑 실력을 키울 수 있습니다.
-- 반응형 디자인으로 다양한 디바이스에서 최적화된 경험을 제공합니다.
 
 ## 기술 스택
 
-- **Frontend**: TypeScript, JavaScript, Tailwind CSS
-- **Backend**: TypeScript, Express, MongoDB, Prisma
-- **API**: OpenAPI를 활용한 문장 및 단어 데이터 제공
-<!-- - **배포**: Vercel (Frontend) / AWS EC2 (Backend) / MongoDB Atlas (Cloud DB)  -->
+### **Frontend**
+- Bundler: Vite
+- Language: TypeScript
+- CSS: Tailwind CSS
+
+### **Backend**
+- Language: TypeScript
+- Framework: Express
+- Database: MongoDB
+- ORM: Prisma
+
+### **Deployment**
+- **Frontend**: Vercel
+<!-- - **Backend**: AWS EC2 (서버) -->
+- **Database**: MongoDB Atlas (클라우드 DB)
 
 ## API 문서
 

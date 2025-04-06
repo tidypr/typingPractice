@@ -8,6 +8,8 @@ import rankRoute from './routes/rankRoute';
 
 const UESR: User[] = [];
 
+let count: number = 0;
+
 const app = express();
 app.use(express.json());
 
@@ -26,13 +28,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.get('/api/korean', async (req: Request, res: Response, next: NextFunction) => {
   const data = await fetchText()
-  console.log(data)
-
+  count += 1;
+  console.log(`요청횟수: ${count}`)
   res.json({ message: 'Hello World!!!!!' });
 });
 
-// TODO: /api/sentences
-app.get('/api/english', async (req: Request, res: Response, next: NextFunction) => {
+app.get('/api/sentences', async (req: Request, res: Response, next: NextFunction) => {
   const data = await fetchText2()
   console.log(data.quote)
 
@@ -40,9 +41,10 @@ app.get('/api/english', async (req: Request, res: Response, next: NextFunction) 
 });
 
 // TODO: /api/words
-app.get('/api/englishWord', async (req: Request, res: Response, next: NextFunction) => {
+app.get('/api/words', async (req: Request, res: Response, next: NextFunction) => {
   const data: string[] = await fetchWord()
-  console.log(data)
+  count += 1;
+  console.log(`요청횟수: ${count}`)
 
   res.json({ data: data });
 });
