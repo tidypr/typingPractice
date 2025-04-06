@@ -1,26 +1,7 @@
 import * as El from "./getElement";
 import { SETTINGS } from "./gameData";
 import { getEnglishWords, saveData } from "../api/api";
-
-type gameData = {
-  level: number;
-  score: number;
-  life: number;
-  combo: number;
-  bomb: number;
-  dropSpeed: number;
-  wordCount: number;
-  startTime: Date | null;
-  endTime: Date | null;
-  words: string[];
-}
-
-type Raindrop = {
-  element: HTMLDivElement;
-  word: string;
-  y: number;
-  type?: string;
-}
+import type { gameData, Raindrop, PlayTime } from "../type.d.ts";
 
 const INITDATA: gameData = {
   level: 1,
@@ -208,20 +189,17 @@ const createPlainWord = () => {
   let extraClass = "";
 
   // TODO: 별도로 분리
-  if (gameData.level > 3) {
-    const randomNum = Math.random();
-    if (randomNum < 0.4) {
-      extraClass = " animate-ping";
-    }
-  } else if (gameData.level > 5) {
-    const randomNum = Math.random();
-    if (randomNum < 0.4) {
+  if (gameData.level >= 3) {
+    const rand = Math.random();
+    if (rand < 0.3) {
       extraClass = " animate-pulse";
     }
-  } else if (gameData.level > 7) {
-    const randomNum = Math.random();
-    if (randomNum < 0.4) {
-      extraClass = " animate-[spin_3s_ease-in-out_infinite]";
+  }
+  
+  if (gameData.level >= 6) {
+    const rand = Math.random();
+    if (rand < 0.6) {
+      extraClass = Math.random() < 0.5 ? " animate-pulse" : " animate-[spin_3s_ease-in-out_infinite]";
     }
   }
 
@@ -393,11 +371,6 @@ const calScore = (level: number, length: number) => {
 
   return tempScore;
 };
-
-type PlayTime = {
-  startTime: number;
-  endTime: number;
-}
 
 
 // playTime 계산
