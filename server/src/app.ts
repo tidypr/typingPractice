@@ -13,10 +13,6 @@ let count: number = 0;
 const app = express();
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.use(express.static('../../client/dist'));
-
 // cors
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

@@ -7,7 +7,7 @@ type gameData = {
 
 export const getEnglishSentences = async () => {
   try {
-    const response = await fetch("http://192.168.0.42:5000/api/sentences");
+    const response = await fetch("http://localhost:5000/api/sentences");
     const data = await response.json();
     return data.data
 
@@ -18,7 +18,7 @@ export const getEnglishSentences = async () => {
 
 export const getEnglishWords = async () => {
   try {
-    const response = await fetch("http://192.168.0.42:5000/api/words");
+    const response = await fetch("http://localhost:5000/api/words");
     const data = await response.json();
     return data.data
 
@@ -29,7 +29,7 @@ export const getEnglishWords = async () => {
 
 
 export const saveData = async (gameData: gameData) => {
-  const response = await fetch("http://192.168.0.42:5000/api/rank", {
+  const response = await fetch("http://localhost:5000/api/rank", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,17 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ESNext", 
-    "module": "CommonJS", 
-    "moduleResolution": "node", 
-    "esModuleInterop": true, 
-    "strict": true, 
-    "rootDir": "./src", 
-    "outDir": "./dist", 
-    "removeComments": true, 
-    // "sourceMap": true, 
-    "noEmitOnError": true, 
-    "forceConsistentCasingInFileNames": true, 
-    "skipLibCheck": true, 
-    "experimentalDecorators": true,
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "removeComments": true,
+    // "sourceMap": true,
+    "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true
   }
 }
