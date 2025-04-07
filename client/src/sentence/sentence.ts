@@ -5,7 +5,7 @@ const prevEl = document.querySelector("#prevSentence") as HTMLElement;
 const curEl = document.querySelector("#curSentence") as HTMLElement;
 const nextEl = document.querySelector("#nextSentence") as HTMLElement;
 
-const test = await getEnglishSentences(); // [{ id: "...", quote: "..." }, ...]
+let test: { quote: string }[] = [];
 let currentIndex = 0;
 let typedInput = "";
 
@@ -15,7 +15,8 @@ let endTime: number | null = null;
 let cur: { quote: string };
 let next: { quote: string } | undefined;
 
-const fetchQuestion = (index: number) => {
+const fetchQuestion = async (index: number) => {
+  test = await getEnglishSentences(); // [{ id: "...", quote: "..." }, ...]
   if (index >= test.length) {
     curEl.textContent = "🎉 End";
     prevEl.textContent = "";
