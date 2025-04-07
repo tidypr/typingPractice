@@ -1,10 +1,4 @@
-import { createServer } from 'http';
-import { parse } from 'url';
-import app from '../app';
+import app from '../../src/app';
+import serverless from 'serverless-http';
 
-module.exports = (req: any, res: any) => {
-  const server = createServer(app);
-  const parsedUrl = parse(req.url!, true);
-  req.url = parsedUrl.path;
-  return server.emit('request', req, res);
-};
+export const handler = serverless(app);

@@ -9,7 +9,7 @@ const dateFormat = (date: Date) => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const API_URL = "http://localhost:5000/api/rank";
+  const API_URL = "https://typing-game-o1sn.vercel.app/api/rank";
   const rankList: HTMLUListElement = document.querySelector("#rank ul") as HTMLUListElement;
 
   try {
