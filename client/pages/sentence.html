@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="/styles/keyboard.css" />
     <!-- script -->
-    <script type="module" src="/src/sentence/keyboard.js" defer></script>
+    <script type="module" src="/src/sentence/sentence.ts" defer></script>
     <title>typing</title>
   </head>
   <body class="flex flex-col h-screen bg-gray-100">
@@ -98,31 +97,6 @@
             &times;
           </button>
           <!-- 프로필 / 통계-->
-          <!-- <article
-            class="flex flex-col items-center bg-white py-6 rounded-lg w-full max-w-lg mx-auto"
-          >
-            <img
-              class="w-20 h-20 rounded-full object-cover"
-              src="./assets/images/king_sweatpotato.webp"
-              alt="profile"
-            />
-
-            <div class="mt-4 text-center flex flex-col gap-2">
-              <h2 class="text-lg font-semibold text-gray-900">기록</h2>
-              <p class="text-gray-600">
-                현재 속도: <span class="font-bold text-blue-500">75 WPM</span>
-              </p>
-              <p class="text-gray-600">
-                평균 속도: <span class="font-bold text-green-500">68 WPM</span>
-              </p>
-              <p class="text-gray-600">
-                최고 속도: <span class="font-bold text-[#e73f32]">82 WPM</span>
-              </p>
-              <p class="text-gray-600">
-                정확도: <span class="font-bold text-purple-500">95%</span>
-              </p>
-            </div>
-          </article> -->
 
           <nav class="mt-4 text-center flex flex-col gap-2">
             <h2 class="text-lg font-bold">연습 선택</h2>
@@ -173,84 +147,76 @@
           alt="ad"
         />
       </sections> -->
-      <!-- 글자 출력 부분 -->
-      <section class="w-full max-w-2xl">
-        <!--  -->
+
+      <section
+        class="flex flex-col items-center bg-white py-6 rounded-lg mx-auto w-full max-w-3xl"
+      >
+        <!-- <img
+          class="w-20 h-20 rounded-full object-cover"
+          src="/images/king_sweatpotato.webp"
+          alt="profile"
+        /> -->
+        <div>
+          <h2 class="text-lg font-semibold text-gray-900">기록</h2>
+        </div>
+
         <div
-          class="bg-white bg-gray-200 p-4 rounded-lg shadow-md text-center mb-2"
+          class="mt-4 text-center flex gap-2 w-full items-center justify-center"
         >
-          <!-- 제시어 -->
-          <p id="question" class="p-4 rounded text-gray-900 font-mono"></p>
-          <!-- userInput -->
-          <p id="answer" class="p-4 rounded text-gray-900/40 font-mono">
-            얼마나 좋아.
+          <p class="text-gray-600">
+            현재 속도: <span class="font-bold text-blue-500">75 WPM</span>
           </p>
-          <!-- input -->
+          <p class="text-gray-600">
+            평균 속도: <span class="font-bold text-green-500">68 WPM</span>
+          </p>
+          <p class="text-gray-600">
+            최고 속도: <span class="font-bold text-[#e73f32]">82 WPM</span>
+          </p>
+          <p class="text-gray-600">
+            정확도: <span class="font-bold text-purple-500">95%</span>
+          </p>
         </div>
       </section>
-      <!-- keyboard layout -->
-      <section class="w-full max-w-3xl">
-        <div class="keyboard">
-          <!-- keyboard row -->
-          <div class="keyboard-row">
-            <div data-key="`" class="key">`</div>
-            <div data-key="1" class="key">1</div>
-            <div data-key="2" class="key">2</div>
-            <div data-key="3" class="key">3</div>
-            <div data-key="4" class="key">4</div>
-            <div data-key="5" class="key">5</div>
-            <div data-key="6" class="key">6</div>
-            <div data-key="7" class="key">7</div>
-            <div data-key="8" class="key">8</div>
-            <div data-key="9" class="key">9</div>
-            <div data-key="0" class="key">0</div>
-            <div data-key="-" class="key">-</div>
-            <div data-key="Delete" class="key">del</div>
-          </div>
-          <div class="keyboard-row">
-            <div data-key="q" class="key">Q</div>
-            <div data-key="W" class="key">W</div>
-            <div data-key="e" class="key">E</div>
-            <div data-key="r" class="key">R</div>
-            <div data-key="t" class="key">T</div>
-            <div data-key="y" class="key">Y</div>
-            <div data-key="u" class="key">U</div>
-            <div data-key="i" class="key">I</div>
-            <div data-key="o" class="key">O</div>
-            <div data-key="p" class="key">P</div>
-            <div data-key="[" class="key">[</div>
-            <div data-key="]" class="key">]</div>
-          </div>
-          <div class="keyboard-row">
-            <!-- <div class="key key2">Caps</div> -->
-            <div data-key="a" class="key">A</div>
-            <div data-key="s" class="key">S</div>
-            <div data-key="d" class="key">D</div>
-            <div data-key="f" class="key">F</div>
-            <div data-key="g" class="key">G</div>
-            <div data-key="h" class="key">H</div>
-            <div data-key="j" class="key">J</div>
-            <div data-key="k" class="key">K</div>
-            <div data-key="l" class="key">L</div>
-            <div data-key=";" class="key">;</div>
-            <div data-key="'" class="key">'</div>
-            <!-- <div class="key key2">Enter</div> -->
-          </div>
-          <div class="keyboard-row">
-            <!-- <div class="key key2">Shift</div> -->
-            <div data-key="z" class="key">Z</div>
-            <div data-key="x" class="key">X</div>
-            <div data-key="c" class="key">C</div>
-            <div data-key="v" class="key">V</div>
-            <div data-key="b" class="key">B</div>
-            <div data-key="n" class="key">N</div>
-            <div data-key="m" class="key">M</div>
-            <div data-key="," class="key">,</div>
-            <div data-key="." class="key">.</div>
-            <div data-key="/" class="key">/</div>
-            <!-- <div class="key key2">Shift</div> -->
+
+      <!-- 문장 출력 -->
+      <section class="w-full max-w-3xl mx-auto">
+        <div class="bg-gray-200 p-6 rounded-lg shadow-md">
+          <div class="overflow-hidden">
+            <div
+              id="carousel"
+              class="flex flex-col transition-transform duration-300 ease-in-out"
+            >
+              <p
+                id="prevSentence"
+                class="h-16 flex text-gray-500"
+              ></p>
+              <p
+                id="curSentence"
+                class="h-16 flex text-black font-bold flex-wrap"
+              ></p>
+              <p
+                id="nextSentence"
+                class="h-16 flex text-gray-500"
+              ></p>
+            </div>
           </div>
         </div>
+      </section>
+
+      <!-- 문장 입력 -->
+      <section id="inputText" class="relative w-full max-w-3xl mx-auto">
+        <input
+          id="answer"
+          type="text"
+          class="absolute text-gray-700 inset-0 w-full caret-black px-2 py-4 rounded-lg shadow-md z-10 h-16"
+          autocomplete="on"
+          autocorrect="off"
+          spellcheck="false"
+        />
+        <p
+          id="printText"
+          class="absolute inset-0 w-full rounded-lg px-2 py-4 pointer-events-none whitespace-pre-wrap"
+        ></p>
       </section>
     </main>
 

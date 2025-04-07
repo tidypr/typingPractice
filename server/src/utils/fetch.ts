@@ -1,11 +1,11 @@
-export const fetchText = async () => {
-  const resData = await fetch('https://korean-advice-open-api.vercel.app/api/advice')
-  const data = await resData.json()
-  return data
-}
+// export const fetchText = async () => {
+//   const resData = await fetch('https://korean-advice-open-api.vercel.app/api/advice')
+//   const data = await resData.json()
+//   return data
+// }
 
-export const fetchText2 = async () => {
-  const resData = await fetch('https://dummyjson.com/quotes/random')
+export const fetchSentence = async () => {
+  const resData = await fetch('https://dummyjson.com/quotes/random/3')
   const data = await resData.json()
   // console.log(data)
   return data
