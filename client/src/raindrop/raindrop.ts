@@ -12,35 +12,17 @@ const INITDATA: gameData = {
   life: 5,
   combo: 0,
   bomb: 3,
-  dropSpeed: 100,
+  dropSpeed: 50,
   wordCount: 0,
   startTime: null,
   endTime: null,
-  words: [] as string[],
+  words: [],
 }
 
-let gameData: gameData = {
-  level: 1,
-  score: 0,
-  life: 5,
-  combo: 0,
-  bomb: 3,
-  dropSpeed: 100,
-  wordCount: 0,
-  startTime: null,
-  endTime: null,
-  words: [] as string[],
-}
-
-
-for (let i = 0; i < 10; i++) {
-  for (let j = 97; j <= 122; j++) {
-    gameData.words.push(String.fromCharCode(j));
-  }
-}
+let gameData: gameData = { ...INITDATA };
 
 // 단어장-표본
-let activeRaindrops: Raindrop[] = [];
+let activeRaindrops: Record<string, Raindrop> = {};
 
 let gameInterval: number | null = null;
 let moveInterval: number | null = null;
@@ -90,8 +72,11 @@ const gameStartHandler = async () => {
 
   El.inputEl.value = "";
   El.inputEl.focus();
-  activeRaindrops.forEach((drop) => El.gameAreaEl.removeChild(drop.element));
-  activeRaindrops = [];
+
+  Object.values(activeRaindrops).forEach((drop) =>
+    El.gameAreaEl.removeChild(drop.element)
+  );
+  activeRaindrops = {};
 
   El.gameOverEl.classList.add("hidden");
 
@@ -109,8 +94,11 @@ const gameRestartHandler = () => {
   El.startGameEl.classList.remove("hidden");
   El.inputEl.value = "";
   El.userNameEl.focus();
-  activeRaindrops.forEach((drop) => El.gameAreaEl.removeChild(drop.element));
-  activeRaindrops = [];
+
+  Object.values(activeRaindrops).forEach((drop) =>
+    El.gameAreaEl.removeChild(drop.element)
+  );
+  activeRaindrops = {};
 
   El.gameOverEl.classList.add("hidden");
   initGame();
@@ -123,9 +111,10 @@ const checkInput = (event: KeyboardEvent) => {
   if (event.code === "Enter") {
     let matched = false;
 
-    activeRaindrops.forEach((drop, index) => {
+    for (const id in activeRaindrops) {
+      const drop = activeRaindrops[id];
       if (drop.word.toLowerCase() === value) {
-        itemTextHandler(drop.type!); // 아이템 텍스트 처리
+        itemTextHandler(drop.type!);
 
         drop.element.classList.add(
           "opacity-0",
@@ -138,23 +127,30 @@ const checkInput = (event: KeyboardEvent) => {
           if (El.gameAreaEl.contains(drop.element)) {
             El.gameAreaEl.removeChild(drop.element);
           }
-          activeRaindrops.splice(index, 1);
         }, 100);
 
-        if (event.target && 'value' in event.target) {
-          gameData.score += calScore(gameData.level, (event.target as HTMLInputElement).value.length, gameData.combo);
+        delete activeRaindrops[id];
+
+        if (event.target && "value" in event.target) {
+          gameData.score += calScore(
+            gameData.level,
+            value.length,
+            gameData.combo
+          );
         }
+
         gameData.wordCount++;
         matched = true;
+        break;
       }
-    });
+    }
 
-    matched ? gameData.combo++ : gameData.combo = 0;
+    gameData.combo = matched ? gameData.combo + 1 : 0;
 
     El.scoreEl.innerText = `${gameData.score}`;
     El.comboEl.innerText = `${gameData.combo}`;
-
     El.inputEl.value = "";
+
     if (gameData.wordCount >= SETTINGS.LEVELUPWORDS) {
       increaseLevel();
     }
@@ -165,29 +161,35 @@ const createItemWord = () => {
   const items = ["💣", "💖"];
 
   const randomItem = items[Math.floor(Math.random() * items.length)];
-
   const word = gameData.words.pop() || "ERROR";;
   const drop = document.createElement("div");
+  const id = Math.random().toString(36).substring(2, 9);
+  drop.dataset.id = id;
 
   drop.textContent = randomItem.concat(" ", word);
   drop.className = defaultClassName;
 
   drop.style.left = `${Math.random() * 85}%`;
   El.gameAreaEl.appendChild(drop);
-  activeRaindrops.push({ element: drop, word, y: 0, type: randomItem });
+  activeRaindrops[id] = { element: drop, word, y: 0, type: randomItem };
+
 };
 
 const createPlainWord = () => {
   // 레벨 변화
   // TODO: 확률 출현
 
-  if (activeRaindrops.length >= 20) return;
+  if (Object.keys(activeRaindrops).length >= 20) return;
+
 
   const word = gameData.words.pop() || "ERROR";
   const drop: HTMLDivElement = document.createElement("div");
 
   drop.textContent = word;
   drop.className = defaultClassName;
+  drop.style.left = `${Math.random() * 85}%`;
+  const id = Math.random().toString(36).substring(2, 9);
+  drop.dataset.id = id;
 
   let extraClass = "";
 
@@ -209,26 +211,25 @@ const createPlainWord = () => {
   drop.className = defaultClassName + extraClass;
 
 
-  drop.style.left = `${Math.random() * 85}%`;
+
   El.gameAreaEl.appendChild(drop);
-  activeRaindrops.push({ element: drop, word, y: 0 });
+  activeRaindrops[id] = { element: drop, word, y: 0 };
+
 };
 
 const updateRaindrops = () => {
   const gameAreaHeight = El.gameAreaEl.clientHeight;
 
-  for (let i = activeRaindrops.length - 1; i >= 0; i--) {
-    console.log(`${activeRaindrops[i].word} - ${activeRaindrops[i].y}`);
-
-    const drop = activeRaindrops[i];
-    drop.y += 2 * gameData.level;
+  for (const id in activeRaindrops) {
+    const drop = activeRaindrops[id];
+    drop.y += 1 * gameData.level;
     drop.element.style.top = `${drop.y}px`;
 
     if (drop.y > gameAreaHeight) {
       if (El.gameAreaEl.contains(drop.element)) {
         El.gameAreaEl.removeChild(drop.element);
       }
-      activeRaindrops.splice(i, 1);
+      delete activeRaindrops[id];
       loseLife();
     }
   }
@@ -336,21 +337,21 @@ const loseLife = () => {
 const useBomb = () => {
   if (gameData.bomb <= 0) return;
 
-  gameData.bomb--;
-  El.bombEl.innerText = "💣".repeat(gameData.bomb);
-  activeRaindrops.forEach((drop) => {
-    // 아이템 텍스트 처리 => 제거, 폭탄은 처리한 아이템은 얻지 못하게 처리
-    // itemTextHandler(drop);
-
+   Object.values(activeRaindrops).forEach((drop) => {
     drop.element.classList.add(
       "opacity-0",
       "scale-0",
       "transition-all",
       "duration-500"
     );
-    setTimeout(() => El.gameAreaEl.removeChild(drop.element), 500);
+    setTimeout(() => {
+      if (El.gameAreaEl.contains(drop.element)) {
+        El.gameAreaEl.removeChild(drop.element);
+      }
+    }, 500);
   });
-  activeRaindrops = [];
+
+  activeRaindrops = {};
 };
 
 const itemTextHandler = (type: string) => {
