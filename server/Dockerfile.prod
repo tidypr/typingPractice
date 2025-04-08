@@ -1,0 +1,25 @@
+# base image
+FROM node:lts-alpine
+
+WORKDIR /app
+
+# 패키지 파일 복사 (캐시 활용)
+COPY package*.json ./
+
+# 의존성 설치
+RUN npm install
+
+# 전체 소스 복사
+COPY . .
+
+# Prisma generate (스키마 기반 클라이언트 생성)
+RUN npx prisma generate
+
+# TypeScript 빌드
+RUN npm run build
+
+# 포트 노출
+EXPOSE 3000
+
+# 빌드된 JS 실행
+CMD ["node", "dist/server.js"]

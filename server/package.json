@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon",
     "generate": "prisma generate",
-    "build": "npm run generate && tsc",
+    "build": "prisma generate && tsc",
     "start": "node dist/server.js"
   },
   "keywords": [],
@@ -15,8 +15,7 @@
   "dependencies": {
     "@prisma/client": "^6.5.0",
     "express": "^4.21.2",
-    "prisma": "^6.5.0",
-    "serverless-http": "^3.2.0"
+    "prisma": "^6.5.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
