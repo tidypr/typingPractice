@@ -4,8 +4,8 @@
 //   return data
 // }
 
-export const fetchSentence = async () => {
-  const resData = await fetch('https://dummyjson.com/quotes/random/3')
+export const fetchSentence = async (num: number) => {
+  const resData = await fetch(`https://dummyjson.com/quotes/random/${num}`)
   const data = await resData.json()
   // console.log(data)
   return data

@@ -29,8 +29,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 //   res.json({ message: 'Hello World!!!!!' });
 // });
 
-app.get('/api/sentences', async (req: Request, res: Response, next: NextFunction) => {
-  const data = await fetchSentence()
+app.get('/api/sentences/:id', async (req: Request, res: Response, next: NextFunction) => {
+  const data = await fetchSentence(Number(req.params.id))
   count += 1;
   console.log(`요청횟수: ${count}`)
 

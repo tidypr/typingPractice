@@ -48,47 +48,37 @@
     </header>
 
     <!-- DIALOG -->
-    <!-- <dialog
-    open
-      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg w-2/5 h-fit items-center justify-center"
+    <dialog
+      open
+      id="recordDialog"
+      class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl w-[90%] max-w-md p-6 transition-all"
     >
-      <div>
-        <div class="mt-4 text-center flex flex-col gap-2 text-2">
-          <h2 class="text-lg font-semibold text-gray-900">기록</h2>
-          <p class="text-gray-600">
-            현재 속도:
-            <span id="curSpeed" class="font-bold text-md text-blue-500">0</span
-            >WPM
-          </p>
-          <p class="text-gray-600">
-            평균 속도:
-            <span id="avgSpeed" class="font-bold text-md text-green-500"
-              >0</span
-            >WPM
-          </p>
-          <p class="text-gray-600">
-            최고 속도:
-            <span id="maxSpeed" class="font-bold text-md text-[#e73f32]"
-              >0</span
-            >WPM
-          </p>
-          <p class="text-gray-600">
-            정확도:
-            <span id="accuracy" class="font-bold text-md text-purple-500"
-              >0</span
-            >%
+      <div class="space-y-6">
+        <div class="text-center">
+          <h2 class="text-2xl font-bold text-gray-800">문장 갯수 입력</h2>
+          <p class="text-sm text-gray-500 mt-1">
+            연습할 문장의 수를 입력하세요
           </p>
         </div>
-        <div class="flex flex-reverse justify-center">
+        <div class="w-full">
+          <input
+            id="sentenceNum"
+            type="number"
+            placeholder="예: 10"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+          />
+        </div>
+        <div class="flex justify-center">
           <button
-            class="mt-4 bg-[#333333] text-white p-2 rounded-md hover:bg-blue-600"
+            id="startButton"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition"
             onclick="this.closest('dialog').close()"
           >
-            확인
+            시작하기
           </button>
         </div>
       </div>
-    </dialog> -->
+    </dialog>
 
     <!-- SIDEBAR -->
     <!-- <aside
@@ -197,12 +187,12 @@
               id="carousel"
               class="flex flex-col transition-transform duration-300 ease-in-out"
             >
-              <p id="prevSentence" class="h-16 flex text-gray-500"></p>
+              <p id="prevSentence" class="h-28 flex text-gray-500"></p>
               <p
                 id="curSentence"
-                class="h-16 flex text-black font-bold flex-wrap"
+                class="h-28 flex text-black font-bold flex-wrap"
               ></p>
-              <p id="nextSentence" class="h-16 flex text-gray-500"></p>
+              <p id="nextSentence" class="h-28 flex text-gray-500"></p>
             </div>
           </div>
         </div>

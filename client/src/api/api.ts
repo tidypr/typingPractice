@@ -9,9 +9,9 @@ type gameData = {
 // const url = 'http://192.168.123.161:5000'
 const url = 'http://192.168.0.42:5000'
 
-export const getEnglishSentences = async () => {
+export const getEnglishSentences = async (num: number) => {
   try {
-    const response = await fetch(`${url}/api/sentences`);
+    const response = await fetch(`${url}/api/sentences/${num}`);
     const data = await response.json();
     return data.data
 

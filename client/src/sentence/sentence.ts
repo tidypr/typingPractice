@@ -12,10 +12,16 @@ let endTime: number | null = null;
 let cur: { quote: string };
 let next: { quote: string } | undefined;
 
+
+
 const initialize = async () => {
-  sentenceList = await getEnglishSentences();
+  const num = El.sentenceNumEl.value
+  sentenceList = await getEnglishSentences(+num);
+  // sentenceList = [{ quote: 'a' }, { quote: 'b' }, { quote: 'c' }, { quote: 'd' }, { quote: 'e' }, { quote: 'f' }]
   console.log(isTestLoaded)
   isTestLoaded = true;
+  El.answerEl.classList.remove("hidden");
+  El.answerEl.focus();
 
   loadQuestion(0);
 };
@@ -23,8 +29,9 @@ const initialize = async () => {
 const loadQuestion = (index: number) => {
   if (index >= sentenceList.length) {
     El.answerEl.classList.add("hidden");
+    El.recordDialogEl.showModal();
 
-    El.curEl.textContent = "🎉 End";
+    El.curEl.textContent = "";
     El.prevEl.textContent = "";
     El.nextEl.textContent = "";
     El.answerEl.value = "";
@@ -107,7 +114,7 @@ const calculateAndLogStats = (isFinal = false) => {
   // (타) 계산
   const elapsedTimeInSeconds = elapsedTime / 1000;
   const wpm = (typedInput.length / elapsedTimeInSeconds) * 60;
-  
+
 
   // 값이 바뀔 때만 DOM 업데이트 (optional)
   El.curSpeedEl.innerText = (elapsedTime / 1000).toFixed(1) + 's';
@@ -124,5 +131,6 @@ const calculateAndLogStats = (isFinal = false) => {
 //   statTest++;
 // };
 
+El.startButtonEl.addEventListener("click", initialize)
 // 🔥 시작
-initialize();
+// initialize();
