@@ -11,6 +11,7 @@ const INITDATA: gameData = {
   score: 0,
   life: 5,
   combo: 0,
+  maxCombo: 0,
   bomb: 3,
   dropSpeed: 50,
   wordCount: 0,
@@ -43,10 +44,13 @@ const initGame = () => {
   El.bombEl.innerText = "💣".repeat(gameData.bomb);
   El.userNameEl.focus();
 
-  // gameOverEl.classList.add("hidden");
+  if (localStorage.getItem("userName")) {
+    El.userNameEl.value = localStorage.getItem("userName") || "";
+    userName = localStorage.getItem("userName") || "";
+    localStorage.removeItem("userName");
+  }
   defaultClassName =
     "bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-3 rounded-lg text-center shadow-xl w-fit absolute text-2xl font-medium tracking-wide flex items-center justify-center";
-
 };
 
 // 게임 시작
@@ -65,7 +69,8 @@ const gameStartHandler = async () => {
     return;
   }
 
-  userName = El.userNameEl.value.trim();
+  localStorage.setItem("userName", El.userNameEl.value.trim());
+
   const fetchData = await getEnglishWords();
   gameData.words = [...fetchData]
   El.startGameEl.classList.add("hidden");
@@ -145,6 +150,8 @@ const checkInput = (event: KeyboardEvent) => {
       }
     }
 
+
+    gameData.maxCombo = Math.max(gameData.maxCombo, gameData.combo);
     gameData.combo = matched ? gameData.combo + 1 : 0;
 
     El.scoreEl.innerText = `${gameData.score}`;
@@ -230,6 +237,8 @@ const updateRaindrops = () => {
         El.gameAreaEl.removeChild(drop.element);
       }
       delete activeRaindrops[id];
+      gameData.combo = 0
+      El.comboEl.innerText = `${gameData.combo}`;
       loseLife();
     }
   }
@@ -249,13 +258,17 @@ const endGameHandler = async (clear: boolean) => {
   El.gameOverScoreEl.innerHTML = `${gameData.score}`;
   El.gameOverUserNameEl.innerHTML = `${userName}`;
   El.endTextEl.innerHTML = clear ? "Game Clear" : "Game Over";
-  El.endTextEl.classList.remove("text-3xl", "font-bold", "text-red-600", "mb-4");
-  El.endTextEl.classList.add("text-3xl", "font-bold", "text-green-600", "mb-4");
+  if (clear) {
+    El.endTextEl.classList.add("text-3xl", "font-bold", "text-green-600", "mb-4");
+  } else {
+    El.endTextEl.classList.remove("text-3xl", "font-bold", "text-red-600", "mb-4");
+  }
 
   const gameRecord = {
     userName: userName,
     level: gameData.level,
     score: gameData.score,
+    maxCombo: gameData.maxCombo,
     playTime: calPlayTime({
       startTime: gameData.startTime ? gameData.startTime.getTime() : 0,
       endTime: gameData.endTime ? gameData.endTime.getTime() : 0,
@@ -265,7 +278,7 @@ const endGameHandler = async (clear: boolean) => {
   await saveData(gameRecord);
 };
 
-// 레벨 증가: 레벨벨속도 증가, 단어 추가
+// 레벨 증가: 속도 증가
 const increaseLevel = () => {
   if (gameData.level >= SETTINGS.CLEARLEVEL) {
     endGameHandler(true);
@@ -276,20 +289,10 @@ const increaseLevel = () => {
   gameData.level++;
   El.levelEl.innerText = `${gameData.level}`;
   gameData.dropSpeed *= SETTINGS.SPEEDRATIO;
-  // getEnglishWords();
 
   // 기존 인터벌 제거, 새로운 인터벌 생성
   if (moveInterval) clearInterval(moveInterval);
   moveInterval = setInterval(updateRaindrops, gameData.dropSpeed);
-
-  // 함수 분리
-  // El.printTextEl.innerText = `Level Up! - ${gameData.level}`;
-  // printTextEl.classList.remove("hidden"); // 보이게
-  // El.printTextEl.classList.add("opacity-0", "transition-all", "duration-2000");
-  // setTimeout(() => {
-  //   El.printTextEl.classList.remove("opacity-0");
-  //   El.printTextEl.classList.add("opacity-100");
-  // }, 2000);
 };
 
 document.addEventListener("keydown", (event) => {
@@ -312,13 +315,21 @@ El.inputEl.addEventListener("keydown", checkInput);
 initGame();
 
 const addBomb = () => {
-  if (gameData.bomb >= SETTINGS.MAXBOMB) return;
+  if (gameData.bomb >= SETTINGS.MAXBOMB) {
+    gameData.score += 10000;
+    El.scoreEl.innerText = `${gameData.score}`;
+    return;
+  };
   gameData.bomb++;
   El.bombEl.innerText = "💣".repeat(gameData.bomb);
 }
 
 const addLife = () => {
-  if (gameData.life >= SETTINGS.MAXLIFE) return;
+  if (gameData.life >= SETTINGS.MAXLIFE) {
+    gameData.score += 10000;
+    El.scoreEl.innerText = `${gameData.score}`;
+    return;
+  };
   gameData.life++;
   El.lifeEl.innerText = "❤️".repeat(gameData.life);
 }
@@ -337,7 +348,7 @@ const loseLife = () => {
 const useBomb = () => {
   if (gameData.bomb <= 0) return;
 
-   Object.values(activeRaindrops).forEach((drop) => {
+  Object.values(activeRaindrops).forEach((drop) => {
     drop.element.classList.add(
       "opacity-0",
       "scale-0",
@@ -350,6 +361,8 @@ const useBomb = () => {
       }
     }, 500);
   });
+  gameData.bomb--;
+  El.bombEl.innerText = "💣".repeat(gameData.bomb);
 
   activeRaindrops = {};
 };

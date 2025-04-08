@@ -5,9 +5,13 @@ type gameData = {
   playTime: string;
 }
 
+// const url = 'http://localhost:5000'
+// const url = 'http://192.168.123.161:5000'
+const url = 'http://192.168.0.42:5000'
+
 export const getEnglishSentences = async () => {
   try {
-    const response = await fetch("https://typing-game-o1sn.vercel.app/api/sentences");
+    const response = await fetch(`${url}/api/sentences`);
     const data = await response.json();
     return data.data
 
@@ -18,7 +22,7 @@ export const getEnglishSentences = async () => {
 
 export const getEnglishWords = async () => {
   try {
-    const response = await fetch("https://typing-game-o1sn.vercel.app/api/words");
+    const response = await fetch(`${url}/api/words`);
     const data = await response.json();
     return data.data
 
@@ -29,7 +33,8 @@ export const getEnglishWords = async () => {
 
 
 export const saveData = async (gameData: gameData) => {
-  const response = await fetch("https://typing-game-o1sn.vercel.app/api/rank", {
+  console.log(gameData)
+  const response = await fetch(`${url}/api/rank`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

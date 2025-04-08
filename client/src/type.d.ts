@@ -3,6 +3,7 @@ export type gameData = {
   score: number;
   life: number;
   combo: number;
+  maxCombo: number;
   bomb: number;
   dropSpeed: number;
   wordCount: number;

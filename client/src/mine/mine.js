@@ -80,7 +80,7 @@ const replaceWordInterval = setInterval(() => {
     messageElement.textContent = "Game Over!";
     messageElement.className = "text-red-500";
   }
-}, 1000);
+}, 3000);
 
 // Check user input
 wordInput.addEventListener("input", () => {

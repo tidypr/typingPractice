@@ -1,13 +1,10 @@
 import { getEnglishSentences } from "../api/api.ts";
+import * as El from "./getElement.ts";
 
-const answerEl = document.querySelector("#answer") as HTMLInputElement;
-const prevEl = document.querySelector("#prevSentence") as HTMLElement;
-const curEl = document.querySelector("#curSentence") as HTMLElement;
-const nextEl = document.querySelector("#nextSentence") as HTMLElement;
-
-let test: { quote: string }[] = [];
 let currentIndex = 0;
 let typedInput = "";
+let sentenceList: { quote: string }[] = [];
+let isTestLoaded = false;
 
 let startTime: number | null = null;
 let endTime: number | null = null;
@@ -15,91 +12,117 @@ let endTime: number | null = null;
 let cur: { quote: string };
 let next: { quote: string } | undefined;
 
-const fetchQuestion = async (index: number) => {
-  test = await getEnglishSentences(); // [{ id: "...", quote: "..." }, ...]
-  if (index >= test.length) {
-    curEl.textContent = "🎉 End";
-    prevEl.textContent = "";
-    nextEl.textContent = "";
-    answerEl.value = "";
+const initialize = async () => {
+  sentenceList = await getEnglishSentences();
+  console.log(isTestLoaded)
+  isTestLoaded = true;
+
+  loadQuestion(0);
+};
+
+const loadQuestion = (index: number) => {
+  if (index >= sentenceList.length) {
+    El.answerEl.classList.add("hidden");
+
+    El.curEl.textContent = "🎉 End";
+    El.prevEl.textContent = "";
+    El.nextEl.textContent = "";
+    El.answerEl.value = "";
     return;
   }
 
-  cur = test[index];
-  next = test[index + 1];
+  cur = sentenceList[index];
+  next = sentenceList[index + 1];
 
   currentIndex = index;
   typedInput = "";
   startTime = null;
   endTime = null;
 
-  prevEl.textContent = index > 0 ? test[index - 1].quote : "";
-  curEl.textContent = cur.quote.trim();
-  nextEl.textContent = next?.quote ?? "";
-  answerEl.value = "";
+  El.prevEl.textContent = index > 0 ? sentenceList[index - 1].quote : "";
+  El.curEl.textContent = cur.quote.trim();
+  El.nextEl.textContent = next?.quote ?? "";
+  El.answerEl.value = "";
+
 };
 
 const updateAnswerDisplay = () => {
-  curEl.innerHTML = ""; // 기존 내용 제거
-  curEl.classList.add('whitespace-pre'); // 줄바꿈을 위한 클래스 추가
-  // curEl.style.whiteSpace = "pre"; // 여기서 스타일 설정
+  El.curEl.innerHTML = "";
+  El.curEl.classList.add("whitespace-pre");
 
   const testText = cur.quote.split("");
 
-  
   for (let i = 0; i < testText.length; i++) {
     const span = document.createElement("span");
     span.textContent = testText[i];
     if (i < typedInput.length) {
-      // console.log(testText[i], typedInput[i])
-      // console.log(testText[i] == typedInput[i])
       span.classList.add(
         typedInput[i] === testText[i] ? "text-green-500" : "text-red-500"
       );
-      console.log(span)
     }
-    curEl.appendChild(span);
+    El.curEl.appendChild(span);
   }
 };
 
-
-answerEl.addEventListener("input", (e) => {
+El.answerEl.addEventListener("input", (e) => {
   const input = (e.target as HTMLInputElement).value;
 
   if (typedInput === "") {
-    startTime = performance.now(); // 타이핑 시작 시간
+    startTime = performance.now();
   }
 
   typedInput = input;
   updateAnswerDisplay();
+  calculateAndLogStats();
 
-  const currentQuestion = test[currentIndex]?.quote;
+  const currentQuestion = sentenceList[currentIndex]?.quote;
 
   if (typedInput.length >= currentQuestion.length) {
     endTime = performance.now();
-    calculateAndLogStats();
-    setTimeout(() => fetchQuestion(currentIndex + 1), 500);
+    calculateAndLogStats(true);
+    loadQuestion(currentIndex + 1)
+    // setTimeout(() => loadQuestion(currentIndex + 1));
   }
 });
 
-const calculateAndLogStats = () => {
-  const currentQuestion = test[currentIndex]?.quote;
-  const totalTyped = typedInput.length;
-  const correctChars = [...typedInput].filter(
-    (char, i) => char === currentQuestion[i]
-  ).length;
+const calculateAndLogStats = (isFinal = false) => {
+  const currentQuote = sentenceList[currentIndex]?.quote;
+  if (!currentQuote || typedInput.length === 0 || !startTime) return;
 
-  const accuracy = totalTyped === 0 ? 0 : (correctChars / totalTyped) * 100;
-
-  let wpm = 0;
-  if (startTime && totalTyped > 0) {
-    const elapsedMinutes =
-      ((endTime || performance.now()) - startTime) / 1000 / 60;
-    wpm = totalTyped / 5 / elapsedMinutes;
+  let correct = 0;
+  const len = Math.min(typedInput.length, currentQuote.length);
+  for (let i = 0; i < len; i++) {
+    if (typedInput[i] === currentQuote[i]) correct++;
   }
 
-  console.log(`Accuracy: ${accuracy.toFixed(2)}%, WPM: ${wpm.toFixed(2)}`);
+  const accuracy = (correct / typedInput.length) * 100;
+
+  const now = performance.now();
+
+  // WPM 계산
+  const elapsedTime = (isFinal ? endTime! : now) - startTime;
+  // const timeTaken = Math.max(elapsedTime / 1000 / 60, 0.01);
+  // const wpm = (typedInput.length / 5) / timeTaken;
+
+  // (타) 계산
+  const elapsedTimeInSeconds = elapsedTime / 1000;
+  const wpm = (typedInput.length / elapsedTimeInSeconds) * 60;
+  
+
+  // 값이 바뀔 때만 DOM 업데이트 (optional)
+  El.curSpeedEl.innerText = (elapsedTime / 1000).toFixed(1) + 's';
+  El.avgSpeedEl.innerText = wpm.toFixed(1) + ' WPM';
+  El.accuracyEl.innerText = accuracy.toFixed(1) + ' %';
 };
 
-// 초기 문장 로딩
-fetchQuestion(0);
+
+// const updateStatsDisplay = () => {
+//   El.curSpeedEl.textContent = `${statTest}`;
+//   El.avgSpeedEl.textContent = `${statTest}`;
+//   El.maxSpeedEl.textContent = `${statTest}`;
+//   El.accuracyEl.textContent = `${statTest}`;
+//   statTest++;
+// };
+
+// 🔥 시작
+initialize();
