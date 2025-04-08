@@ -11,6 +11,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const { userName, score, level, playTime, maxCombo } = await req.body;
 
   // 유효성 검사 추가 => Joi or Zod
+  
 
   const result = await prisma.user.create({
     data: {
