@@ -70,6 +70,7 @@ const gameStartHandler = async () => {
   }
 
   localStorage.setItem("userName", El.userNameEl.value.trim());
+  userName = El.userNameEl.value.trim();
 
   const fetchData = await getEnglishWords();
   gameData.words = [...fetchData]
@@ -256,7 +257,7 @@ const endGameHandler = async (clear: boolean) => {
 
   El.gameOverLevelEl.innerHTML = `${gameData.level}`;
   El.gameOverScoreEl.innerHTML = `${gameData.score}`;
-  El.gameOverUserNameEl.innerHTML = `${userName}`;
+  El.gameOverUserNameEl.innerHTML = localStorage.getItem("userName") || "";
   El.endTextEl.innerHTML = clear ? "Game Clear" : "Game Over";
   if (clear) {
     El.endTextEl.classList.add("text-3xl", "font-bold", "text-green-600", "mb-4");
