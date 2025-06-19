@@ -5,9 +5,7 @@ type gameData = {
   playTime: string;
 }
 
-// const url = 'http://localhost:5000'
-// const url = 'http://192.168.123.161:5000'
-const url = 'http://192.168.0.42:5000'
+const url = 'http://localhost:5000'
 
 export const getEnglishSentences = async (num: number) => {
   try {

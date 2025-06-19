@@ -7,9 +7,8 @@ const dateFormat = (date: Date) => {
 
   return `${year}/${month}/${day} ${hours}:${minutes}`;
 };
-// const url = 'http://localhost:5000'
-// const url = 'http://192.168.123.161:5000'
-const url = 'http://192.168.0.42:5000'
+
+const url = 'http://localhost:5000'
 
 document.addEventListener("DOMContentLoaded", async () => {
   const API_URL = `${url}/api/rank`;
